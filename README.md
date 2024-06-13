@@ -1,4 +1,4 @@
-## ML assignments, readings, some slides, and practice exams archieve for CMU 10601 .
+## Assignments and Readings Archieve for CMU 10601 .
 ### if you are a current student enrolled in this class, looking up for homework solutions in this repo is a violation of academic integrity; 
 ### this repo is for those who would like to self-study machine learning
 
