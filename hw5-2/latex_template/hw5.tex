@@ -1,0 +1,1418 @@
+\documentclass[11pt,addpoints,answers]{exam}
+%-----------------------------------------------------------------------------
+% PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%-----------------------------------------------------------------------------
+
+\usepackage[margin=1in]{geometry}
+% \usepackage{amsmath, amsfonts}
+% \usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{titling}
+% \usepackage{url}
+% \usepackage{xfrac}
+% \usepackage{natbib}
+\usepackage{amssymb}
+% \usepackage{amsthm}
+% \usepackage{paralist}
+% \usepackage{epstopdf}
+% \usepackage{tabularx}
+% \usepackage{longtable}
+% \usepackage{multirow}
+% \usepackage{multicol}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{algorithm}
+% \usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+% \usepackage{float}
+% \usepackage{array}
+% \usepackage{environ}
+\usepackage{times}
+% \usepackage{textcomp}
+\usepackage{caption}
+\usepackage{parskip} % For NIPS style paragraphs.
+\usepackage[compact]{titlesec} % Less whitespace around titles
+% \usepackage[inline]{enumitem} % For inline enumerate* and itemize*
+% \usepackage{datetime}
+% \usepackage{comment}
+% \usepackage{minted}
+% \usepackage{lastpage}
+% \usepackage{color}
+% \usepackage{xcolor}
+\usepackage[final]{listings}
+% \usepackage{framed}
+% \usepackage{booktabs}
+% \usepackage{cprotect}
+% \usepackage{verbatimbox}
+% \usepackage{subcaption}
+\usepackage{mathtools} % For drcases
+\usepackage{cancel}
+\usepackage[many]{tcolorbox}
+% \usepackage{soul}
+% \usepackage[bottom]{footmisc}
+\usepackage{bm}
+% \usepackage{wasysym}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+% \usetikzlibrary{shapes,decorations}
+\usetikzlibrary{positioning, arrows, automata, calc}
+
+\newtcolorbox[]{your_solution}[1][]{
+    % breakable,
+    enhanced,
+    nobeforeafter,
+    colback=white,
+    title=Your Answer,
+    sidebyside align=top,
+    box align=top,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting for \CorrectChoice of "exam" %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\CorrectChoiceEmphasis{}
+\checkedchar{\blackcircle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rotated Column Headers                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{adjustbox}
+\usepackage{array}
+
+%https://tex.stackexchange.com/questions/32683/rotated-column-titles-in-tabular
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Better numbering                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+% \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom commands                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\vc}[1]{\boldsymbol{#1}}
+\newcommand{\adj}[1]{\frac{d J}{d #1}}
+\newcommand{\chain}[2]{\adj{#2} = \adj{#1}\frac{d #1}{d #2}}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\blackcircle}{\tikz\draw[black,fill=black] (0,0) circle (1ex);}
+\renewcommand{\circle}{\tikz\draw[black] (0,0) circle (1ex);}
+
+\newcommand{\emptysquare}{{\LARGE $\square$}\ \ }
+\newcommand{\filledsquare}{{\LARGE $\boxtimes$}\ \ }
+\newcommand{\emptycircle}{{\LARGE $\fullmoon$}\ \ }
+\newcommand{\filledcircle}{{\LARGE $\newmoon$}\ \ }
+
+\newcommand{\ntset}{test}
+
+% mathcal
+\newcommand{\Ac}{\mathcal{A}}
+\newcommand{\Bc}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\Ec}{\mathcal{E}}
+\newcommand{\Fc}{\mathcal{F}}
+\newcommand{\Gc}{\mathcal{G}}
+\newcommand{\Hc}{\mathcal{H}}
+\newcommand{\Ic}{\mathcal{I}}
+\newcommand{\Jc}{\mathcal{J}}
+\newcommand{\Kc}{\mathcal{K}}
+\newcommand{\Lc}{\mathcal{L}}
+\newcommand{\Mc}{\mathcal{M}}
+\newcommand{\Nc}{\mathcal{N}}
+\newcommand{\Oc}{\mathcal{O}}
+\newcommand{\Pc}{\mathcal{P}}
+\newcommand{\Qc}{\mathcal{Q}}
+\newcommand{\Rc}{\mathcal{R}}
+\newcommand{\Sc}{\mathcal{S}}
+\newcommand{\Tc}{\mathcal{T}}
+\newcommand{\Uc}{\mathcal{U}}
+\newcommand{\Vc}{\mathcal{V}}
+\newcommand{\Wc}{\mathcal{W}}
+\newcommand{\Xc}{\mathcal{X}}
+\newcommand{\Yc}{\mathcal{Y}}
+\newcommand{\Zc}{\mathcal{Z}}
+
+% mathbb
+\newcommand{\Ab}{\mathbb{A}}
+\newcommand{\Bb}{\mathbb{B}}
+\newcommand{\Cb}{\mathbb{C}}
+\newcommand{\Db}{\mathbb{D}}
+\newcommand{\Eb}{\mathbb{E}}
+\newcommand{\Fb}{\mathbb{F}}
+\newcommand{\Gb}{\mathbb{G}}
+\newcommand{\Hb}{\mathbb{H}}
+\newcommand{\Ib}{\mathbb{I}}
+\newcommand{\Jb}{\mathbb{J}}
+\newcommand{\Kb}{\mathbb{K}}
+\newcommand{\Lb}{\mathbb{L}}
+\newcommand{\Mb}{\mathbb{M}}
+\newcommand{\Nb}{\mathbb{N}}
+\newcommand{\Ob}{\mathbb{O}}
+\newcommand{\Pb}{\mathbb{P}}
+\newcommand{\Qb}{\mathbb{Q}}
+\newcommand{\Rb}{\mathbb{R}}
+\newcommand{\Sb}{\mathbb{S}}
+\newcommand{\Tb}{\mathbb{T}}
+\newcommand{\Ub}{\mathbb{U}}
+\newcommand{\Vb}{\mathbb{V}}
+\newcommand{\Wb}{\mathbb{W}}
+\newcommand{\Xb}{\mathbb{X}}
+\newcommand{\Yb}{\mathbb{Y}}
+\newcommand{\Zb}{\mathbb{Z}}
+
+% mathbf lowercase
+\newcommand{\av}{\mathbf{a}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\cv}{\mathbf{c}}
+\newcommand{\dv}{\mathbf{d}}
+\newcommand{\ev}{\mathbf{e}}
+\newcommand{\fv}{\mathbf{f}}
+\newcommand{\gv}{\mathbf{g}}
+\newcommand{\hv}{\mathbf{h}}
+\newcommand{\iv}{\mathbf{i}}
+\newcommand{\jv}{\mathbf{j}}
+\newcommand{\kv}{\mathbf{k}}
+\newcommand{\lv}{\mathbf{l}}
+\newcommand{\mv}{\mathbf{m}}
+\newcommand{\nv}{\mathbf{n}}
+\newcommand{\ov}{\mathbf{o}}
+\newcommand{\pv}{\mathbf{p}}
+\newcommand{\qv}{\mathbf{q}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\sv}{\mathbf{s}}
+\newcommand{\tv}{\mathbf{t}}
+\newcommand{\uv}{\mathbf{u}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\zv}{\mathbf{z}}
+
+% mathbf uppercase
+\newcommand{\Av}{\mathbf{A}}
+\newcommand{\Bv}{\mathbf{B}}
+\newcommand{\Cv}{\mathbf{C}}
+\newcommand{\Dv}{\mathbf{D}}
+\newcommand{\Ev}{\mathbf{E}}
+\newcommand{\Fv}{\mathbf{F}}
+\newcommand{\Gv}{\mathbf{G}}
+\newcommand{\Hv}{\mathbf{H}}
+\newcommand{\Iv}{\mathbf{I}}
+\newcommand{\Jv}{\mathbf{J}}
+\newcommand{\Kv}{\mathbf{K}}
+\newcommand{\Lv}{\mathbf{L}}
+\newcommand{\Mv}{\mathbf{M}}
+\newcommand{\Nv}{\mathbf{N}}
+\newcommand{\Ov}{\mathbf{O}}
+\newcommand{\Pv}{\mathbf{P}}
+\newcommand{\Qv}{\mathbf{Q}}
+\newcommand{\Rv}{\mathbf{R}}
+\newcommand{\Sv}{\mathbf{S}}
+\newcommand{\Tv}{\mathbf{T}}
+\newcommand{\Uv}{\mathbf{U}}
+\newcommand{\Vv}{\mathbf{V}}
+\newcommand{\Wv}{\mathbf{W}}
+\newcommand{\Xv}{\mathbf{X}}
+\newcommand{\Yv}{\mathbf{Y}}
+\newcommand{\Zv}{\mathbf{Z}}
+
+% bold greek lowercase
+\newcommand{\alphav     }{\boldsymbol \alpha     }
+\newcommand{\betav      }{\boldsymbol \beta      }
+\newcommand{\gammav     }{\boldsymbol \gamma     }
+\newcommand{\deltav     }{\boldsymbol \delta     }
+\newcommand{\epsilonv   }{\boldsymbol \epsilon   }
+\newcommand{\varepsilonv}{\boldsymbol \varepsilon}
+\newcommand{\zetav      }{\boldsymbol \zeta      }
+\newcommand{\etav       }{\boldsymbol \eta       }
+\newcommand{\thetav     }{\boldsymbol \theta     }
+\newcommand{\varthetav  }{\boldsymbol \vartheta  }
+\newcommand{\iotav      }{\boldsymbol \iota      }
+\newcommand{\kappav     }{\boldsymbol \kappa     }
+\newcommand{\varkappav  }{\boldsymbol \varkappa  }
+\newcommand{\lambdav    }{\boldsymbol \lambda    }
+\newcommand{\muv        }{\boldsymbol \mu        }
+\newcommand{\nuv        }{\boldsymbol \nu        }
+\newcommand{\xiv        }{\boldsymbol \xi        }
+\newcommand{\omicronv   }{\boldsymbol \omicron   }
+\newcommand{\piv        }{\boldsymbol \pi        }
+\newcommand{\varpiv     }{\boldsymbol \varpi     }
+\newcommand{\rhov       }{\boldsymbol \rho       }
+\newcommand{\varrhov    }{\boldsymbol \varrho    }
+\newcommand{\sigmav     }{\boldsymbol \sigma     }
+\newcommand{\varsigmav  }{\boldsymbol \varsigma  }
+\newcommand{\tauv       }{\boldsymbol \tau       }
+\newcommand{\upsilonv   }{\boldsymbol \upsilon   }
+\newcommand{\phiv       }{\boldsymbol \phi       }
+\newcommand{\varphiv    }{\boldsymbol \varphi    }
+\newcommand{\chiv       }{\boldsymbol \chi       }
+\newcommand{\psiv       }{\boldsymbol \psi       }
+\newcommand{\omegav     }{\boldsymbol \omega     }
+
+% bold greek uppercase
+\newcommand{\Gammav     }{\boldsymbol \Gamma     }
+\newcommand{\Deltav     }{\boldsymbol \Delta     }
+\newcommand{\Thetav     }{\boldsymbol \Theta     }
+\newcommand{\Lambdav    }{\boldsymbol \Lambda    }
+\newcommand{\Xiv        }{\boldsymbol \Xi        }
+\newcommand{\Piv        }{\boldsymbol \Pi        }
+\newcommand{\Sigmav     }{\boldsymbol \Sigma     }
+\newcommand{\Upsilonv   }{\boldsymbol \Upsilon   }
+\newcommand{\Phiv       }{\boldsymbol \Phi       }
+\newcommand{\Psiv       }{\boldsymbol \Psi       }
+\newcommand{\Omegav     }{\boldsymbol \Omega     }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code highlighting with listings         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\definecolor{light-gray}{gray}{0.95}
+
+\newcommand{\MYhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{Shell}{
+  keywords={tar, cd, make},
+  %keywordstyle=\color{bluekeywords}\bfseries,
+  alsoletter={+},
+  ndkeywords={python, py, javac, java, gcc, c, g++, cpp, .txt, octave, m, .tar},
+  %ndkeywordstyle=\color{bluekeywords}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  %stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  backgroundcolor = \color{light-gray}
+}
+
+\lstset{columns=fixed, basicstyle=\ttfamily,
+    backgroundcolor=\color{light-gray},xleftmargin=0.5cm,frame=tlbr,framesep=4pt,framerule=0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom box for highlights               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define box and box title style
+\tikzstyle{mybox} = [fill=blue!10, very thick,
+    rectangle, rounded corners, inner sep=1em, inner ysep=1em]
+
+\NewEnviron{notebox}{
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{\textwidth}
+        \BODY
+    \end{minipage}
+};
+\end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands showing / hiding solutions     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% To HIDE SOLUTIONS (to post at the website for students), set this value to 0: 
+\def\issoln{0}
+
+% Default to an empty solutions environ.
+\NewEnviron{soln}{}{}
+\if\issoln 1
+% Otherwise, include solutions as below.
+\RenewEnviron{soln}{
+    \leavevmode\color{red}\ignorespaces
+    % \textbf{Solution} \BODY
+    \BODY
+}{}
+\fi
+
+
+
+% Abhi messing around with examdoc
+\qformat{\textbf{{\Large \thequestion \; \; \thequestiontitle \ (\totalpoints \ points)}} \hfill}
+\renewcommand{\thequestion}{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion.}
+
+\renewcommand{\thepartno}{\arabic{partno}}
+\renewcommand{\partlabel}{\thepartno.}
+\renewcommand{\partshook}{\setlength{\leftmargin}{0pt}}
+
+\renewcommand{\thesubpart}{\alph{subpart}}
+\renewcommand{\subpartlabel}{(\thesubpart)}
+
+\renewcommand{\thesubsubpart}{\roman{subsubpart}}
+\renewcommand{\subsubpartlabel}{\thesubsubpart.}
+
+% copied from stack overflow, as all good things are
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}}
+
+% quite possibly the worst workaround i have made for this class
+\newcommand{\sectionquestion}[1]{
+\titledquestion{#1}
+\invisiblesection{#1}
+~\vspace{-1em}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands for customizing the assignment %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\courseName}{10-301/10-601 Introduction to Machine Learning (Spring 2024)}
+\newcommand{\hwName}{Homework 5: Neural Networks}
+\newcommand{\dueDate}{Sunday, March 17 at 11:59 PM}
+\newcommand{\homeworktype}{\string programming}
+
+\title{\textsc{\hwName}
+%\thanks{Compiled on \today{} at \currenttime{}}
+} % Title
+
+
+\author{\courseName\\
+\url{https://www.cs.cmu.edu/~mgormley/courses/10601/} \\
+OUT: Wednesday, February 28 \\
+DUE: \dueDate{} \\ 
+TAs: Andrew, Emily, Kushagra, Zoe
+}
+
+% Question type commands
+\newcommand{\sall}{\textbf{Select all that apply: }}
+\newcommand{\sone}{\textbf{Select one: }}
+\newcommand{\tf}{\textbf{True or False: }}
+
+
+\date{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Useful commands for typesetting the questions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand \expect {\mathbb{E}}
+\newcommand \mle [1]{{\hat #1}^{\rm MLE}}
+\newcommand \map [1]{{\hat #1}^{\rm MAP}}
+\newcommand \argmax {\operatorname*{argmax}}
+\newcommand \argmin {\operatorname*{argmin}}
+\newcommand \code [1]{{\tt #1}}
+\newcommand \datacount [1]{\#\{#1\}}
+\newcommand \ind [1]{\mathbb{I}\{#1\}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document configuration %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't display a date in the title and remove the white space
+\predate{}
+\postdate{}
+\date{}
+
+% Don't display an author and remove the white space
+%\preauthor{}
+%\postauthor{}
+
+%%%%%%%%%%%%%%%%%%
+% Begin Document %
+%%%%%%%%%%%%%%%%%% 
+
+\begin{document}
+
+\maketitle
+
+\begin{notebox}
+\paragraph{Summary} In this assignment, you will build an image recognition system using a neural network. In the Written component, you will walk through an on-paper example of how to implement a neural network. Then, in the Programming component, you will implement an end-to-end system that learns to perform image classification.
+\end{notebox}
+\section*{START HERE: Instructions}
+\begin{itemize}
+\newcommand \maxsubs {10 }
+
+\item \textbf{Collaboration Policy}: Please read the collaboration policy here: \url{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}
+
+\item\textbf{Late Submission Policy:} See the late submission policy here: \url{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}
+
+\item\textbf{Submitting your work:} You will use Gradescope to submit
+  answers to all questions\ifthenelse{\equal{\homeworktype}{\string written}}{}{ and code}. Please
+  follow instructions at the end of this PDF to correctly submit all your code to Gradescope.
+
+\begin{itemize}
+    
+    \item \textbf{Written:} For written problems such as short answer, multiple choice, derivations, proofs, or plots, please use the provided template. Submissions can be handwritten onto the template, but should be labeled and clearly legible. If your writing is not legible, you will not be awarded marks. Alternatively, submissions can be written in \LaTeX{}. Each derivation/proof should be completed in the boxes provided. You are responsible for ensuring that your submission contains exactly the same number of pages and the same alignment as our PDF template. If you do not follow the template, your assignment may not be graded correctly by our AI assisted grader and there will be a \textbf{\textcolor{red}{2\% penalty}} (e.g., if the homework is out of 100 points, 2 points will be deducted from your final score).
+    %
+    % This policy is NOT in effect when we have the Background Test.
+    % \ifthenelse{\equal{\homeworktype}{\string hw1}}{ {\color{red} For this assignment only, if you answer at least 90\% of the written questions correctly, you get full marks on the written portion of this assignment. For this assignment only, \textbf{we will offer two rounds of grading}. The first round of grading will happen immediately following the due date specified above. We will then release your grades to you and if you got less than 90\% on the written questions, you will be allowed to submit once again by a second due date. The exact due date for the second round will be announced after we release the first round grades. } }{}
+
+    \ifthenelse{\equal{\homeworktype}{\string written}}{}{
+    \item \textbf{Programming:} You will submit your code for programming questions on the homework to \href{https://gradescope.com}{Gradescope}. After uploading your code, our grading scripts will autograde your assignment by running your program on a virtual machine (VM). 
+    %
+    You are only permitted to use \href{https://docs.python.org/3/library/}{the Python Standard Library modules} and \texttt{numpy}.
+    % You are only permitted to use \href{https://docs.python.org/3/library/}{the Python Standard Library modules}, \texttt{numpy} and the modules already imported in the starter notebook. You are not permitted to import any other modules.
+    %
+    % You will not have to change the default version of your programming environment and the versions of the permitted libraries on Google Colab. You have \maxsubs free Gradescope programming submissions, after which you will begin to lose points from your total programming score. We recommend debugging your implementation on Google Colab and making sure your code is running correctly first before submitting your code to Gradescope.}
+    %
+    Ensure that the version number of your programming language environment (i.e. Python 3.9.12) and versions of permitted libraries (i.e. \texttt{numpy} 1.23.0) match those used on Gradescope. You have \maxsubs free Gradescope programming submissions, after which you will begin to lose points from your total programming score. We recommend debugging your implementation on your local machine (or the Linux servers) and making sure your code is running correctly first before submitting your code to Gradescope.}
+    \ifthenelse{\equal{\homeworktype}{\string hw1}}{ {\color{red} The submission limit is true for future assignments, but this one allows \textbf{unlimited submissions.}} }{}
+   
+  \end{itemize}
+  
+\ifthenelse{\equal{\homeworktype}{\string written}}{}{\item\textbf{Materials:} The data and reference output that you will need in order to complete this assignment is posted along with the writeup and template on the course website.}
+
+\end{itemize}
+
+\clearpage
+
+\section*{Instructions for Specific Problem Types}
+
+For ``Select One" questions, please fill in the appropriate bubble completely:
+
+\begin{quote}
+\textbf{Select One:} Who taught this course?
+    \begin{checkboxes}
+     \CorrectChoice Matt Gormley
+     \choice Marie Curie
+     \choice Noam Chomsky
+    \end{checkboxes}
+\end{quote}
+
+If you need to change your answer, you may cross out the previous answer and bubble in the new answer:
+
+\begin{quote}
+\textbf{Select One:} Who taught this course?
+    {
+    \begin{checkboxes}
+     \CorrectChoice Henry Chai
+     \choice Marie Curie \checkboxchar{\xcancel{\blackcircle}{}}
+     \choice Noam Chomsky
+    \end{checkboxes}
+    }
+\end{quote}
+
+For ``Select all that apply" questions, please fill in all appropriate squares completely:
+
+\begin{quote}
+\textbf{Select all that apply:} Which are instructors for this course?
+    {%
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$} % change checkbox style locally
+    \begin{checkboxes}
+    \CorrectChoice Matt Gormley  
+    \CorrectChoice Henry Chai
+    \CorrectChoice Hoda Heidari
+    \choice I don't know
+    \end{checkboxes}
+    }
+\end{quote}
+
+Again, if you need to change your answer, you may cross out the previous answer(s) and bubble in the new answer(s):
+
+\begin{quote}
+\textbf{Select all that apply:} Which are the instructors for this course?
+    {%
+    \checkboxchar{\xcancel{$\blacksquare$}} \checkedchar{$\blacksquare$} % change checkbox style locally
+    \begin{checkboxes}
+    \CorrectChoice Matt Gormley 
+    \CorrectChoice Henry Chai
+    \CorrectChoice Hoda Heidari
+    \choice I don't know
+    \end{checkboxes}
+    }
+\end{quote}
+
+For questions where you must fill in a blank, please make sure your final answer is fully included in the given space. You may cross out answers or parts of answers, but the final answer must still be within the given space.
+
+\begin{quote}
+\textbf{Fill in the blank:} What is the course number?
+
+\begin{tcolorbox}[fit,height=1cm, width=4cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+    \begin{center}\huge10-601\end{center}
+    \end{tcolorbox}\hspace{2cm}
+    \begin{tcolorbox}[fit,height=1cm, width=4cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+    \begin{center}\huge10-\xcancel{6}301\end{center}
+    \end{tcolorbox}
+\end{quote}
+\clearpage
+
+{\LARGE \bf Written Questions (\numpoints \ points)} 
+\begin{questions}
+\sectionquestion{\LaTeX{} Bonus Point and Template Alignment}
+\begin{parts}
+    \part[1] \sone Did you use \LaTeX{} for the entire written portion of this homework?
+    
+    \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice Yes 
+        \choice No
+    \end{checkboxes}
+
+    \part[0] \sone I have ensured that my final submission is aligned with the original template given to me in the handout file and that I haven't deleted or resized any items or made any other modifications which will result in a misaligned template. I understand that incorrectly responding yes to this question will result in a penalty equivalent to 2\% of the points on this assignment.\\
+    \textbf{Note:} Failing to answer this question will not exempt you from the 2\% misalignment penalty.
+    
+    \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice Yes 
+    \end{checkboxes}
+
+    \vspace{.5cm}
+\end{parts}\sectionquestion{Example Feed Forward and Backpropagation}
+\label{sec:onelayertoy}
+\begin{figure}[h]
+    \def\distH{3.6cm}
+    \def\distHTwo{0.1cm}
+    \def\distHThree{0.3cm}
+    \def\distV{0.6cm}
+    \def\distVTwo{0.3cm}
+    \centering
+    \begin{tikzpicture}[
+            > = stealth, % arrow head style
+            shorten > = 0pt, % don't touch arrow head to node
+            auto,
+            % node distance = 2.5cm, % distance between nodes
+            thick % line style
+        ]\footnotesize
+
+        \tikzstyle{every state}=[
+            draw = black,
+            thick,
+            fill = white,
+            minimum size = 0.8cm,
+            shape = rectangle
+        ]
+        \node[state] (X0) {$\xv$};
+        \node[state] (a) [right = \distHThree of X0] {$\av = \text{Linear}(\alphav^*, \alphav_{b}, \xv)$};
+        \node[state] (alpha1) [below = \distV of a] { $\alphav^*$};
+        \node[state] (alpha0) [right = \distHTwo of alpha1] {$\alphav_{b}$};
+        \node[state] (z) [right = \distHThree of a] {$\zv = \text{Sigmoid}(\av)$};
+        \node[state] (b) [right = \distHThree of z] {$\bv = \text{Linear}(\betav^*,\betav_b, \zv)$};
+        \node[state] (beta1) [below = \distV of b] {$\betav^*$};
+        \node[state] (beta0) [right = \distHTwo of beta1] {$\betav_{b}$};
+        \node[state] (y_hat) [right = \distHThree of b] {$\hat{\yv} = \text{Softmax}(\bv)$};
+        \node[state] (loss) [right = \distHThree of y_hat] {$l(\hat{\yv},\yv) = \text{CELoss}(\hat{\yv},\yv)$};
+        \node[state] (y) [below = \distV of loss] {$\yv$};
+        \path[->] (X0) edge node {} (a);
+        \path[->] (a) edge node {} (z);
+        \path[->] (z) edge node {} (b);
+        \path[->] (b) edge node {} (y_hat);
+        \path[->] (y_hat) edge node {} (loss);
+        \path[->] (alpha1) edge node {} (a);
+        \path[->] (alpha0) edge node {} (a);
+        \path[->] (beta1) edge node {} (b);
+        \path[->] (beta0) edge node {} (b);
+        \path[->] (y) edge node {} (loss);
+        
+        \begin{comment}
+        \node[state] (X0) {$1$};
+        \node[state] (X1) [below = \distV of X0] {$x_1$};
+        \node[state] (X2) [below = \distV of X1] {$x_2$};
+        \node[state] (X3) [below = \distV of X2] {$x_3$};
+        \node[state] (X4) [below = \distV of X3] {$x_4$};
+        \node[state] (X5) [below = \distV of X4] {$x_5$};
+        \node[state] (X6) [below = \distV of X5] {$x_6$};
+        \node[state] (A1) [right = \distH of X2] {$a_1$};
+        \node[state] (A2) [below = \distV of A1] {$a_2$};
+        \node[state] (A3) [below = \distV of A2] {$a_3$};
+        \node[state] (A4) [below = \distV of A3] {$a_4$};
+        \node[state] (Z1) [right = \distHTwo of A1] {$z_1$};
+        \node[state] (Z2) [below = \distV of Z1] {$z_2$};
+        \node[state] (Z3) [below = \distV of Z2] {$z_3$};
+        \node[state] (Z4) [below = \distV of Z3] {$z_4$};
+        \node[state] (Z0) [above = \distV of Z1] {$1$};
+        \node[state] (B1) [below right = \distVTwo and \distH of A1] {$b_1$};
+        \node[state] (B2) [below = \distV of B1] {$b_2$};
+        \node[state] (B3) [below = \distV of B2] {$b_3$};
+        \node[state] (Y1) [right = \distHThree of B1] {$\hat{y}_1$};
+        \node[state] (Y2) [below = \distV of Y1] {$\hat{y}_2$};
+        \node[state] (Y3) [below = \distV of Y2] {$\hat{y}_3$};
+        \node[state] (l) [right = \distHThree of Y2] {$l$};
+
+        \path[->] (X0) edge node {$\alpha_{1,0}$} (A1);
+        \path[->] (X0) edge node {} (A2);
+        \path[->] (X0) edge node {} (A3);
+        \path[->] (X0) edge node {} (A4);
+        \path[->] (X1) edge node {} (A1);
+        \path[->] (X1) edge node {} (A2);
+        \path[->] (X1) edge node {} (A3);
+        \path[->] (X1) edge node {} (A4);
+        \path[->] (X2) edge node {} (A1);
+        \path[->] (X2) edge node {} (A2);
+        \path[->] (X2) edge node {} (A3);
+        \path[->] (X2) edge node {} (A4);
+        \path[->] (X3) edge node {} (A1);
+        \path[->] (X3) edge node {} (A2);
+        \path[->] (X3) edge node {} (A3);
+        \path[->] (X3) edge node {} (A4);
+        \path[->] (X4) edge node {} (A1);
+        \path[->] (X4) edge node {} (A2);
+        \path[->] (X4) edge node {} (A3);
+        \path[->] (X4) edge node {} (A4);
+        \path[->] (X5) edge node {} (A1);
+        \path[->] (X5) edge node {} (A2);
+        \path[->] (X5) edge node {} (A3);
+        \path[->] (X5) edge node {} (A4);
+        \path[->] (X6) edge node {} (A1);
+        \path[->] (X6) edge node {} (A2);
+        \path[->] (X6) edge node {} (A3);
+        \path[->] (X6) edge node {} (A4);
+        \path[->] (Z0) edge node {$\beta_{1,0}$} (B1);
+        \path[->] (Z0) edge node {} (B2);
+        \path[->] (Z0) edge node {} (B3);
+        \path[->] (Z1) edge node {} (B1);
+        \path[->] (Z1) edge node {} (B2);
+        \path[->] (Z1) edge node {} (B3);
+        \path[->] (Z2) edge node {} (B1);
+        \path[->] (Z2) edge node {} (B2);
+        \path[->] (Z2) edge node {} (B3);
+        \path[->] (Z3) edge node {} (B1);
+        \path[->] (Z3) edge node {} (B2);
+        \path[->] (Z3) edge node {} (B3);
+        \path[->] (Z4) edge node {} (B1);
+        \path[->] (Z4) edge node {} (B2);
+        \path[->] (Z4) edge node {} (B3);
+        \path[->] (B1) edge node {} (Y1);
+        \path[->] (B1) edge node {} (Y2);
+        \path[->] (B1) edge node {} (Y3);
+        \path[->] (B2) edge node {} (Y1);
+        \path[->] (B2) edge node {} (Y2);
+        \path[->] (B2) edge node {} (Y3);
+        \path[->] (B3) edge node {} (Y1);
+        \path[->] (B3) edge node {} (Y2);
+        \path[->] (B3) edge node {} (Y3);
+        \path[->] (Y1) edge node {} (l);
+        \path[->] (Y2) edge node {} (l);
+        \path[->] (Y3) edge node {} (l);
+        \path[->] (A1) edge node {} (Z1);
+        \path[->] (A2) edge node {} (Z2);
+        \path[->] (A3) edge node {} (Z3);
+        \path[->] (A4) edge node {} (Z4);
+        \end{comment}
+    \end{tikzpicture}
+    \caption{Computational Graph for a One Hidden Layer Neural Network}
+    \label{fig:oneHL}
+\end{figure}
+\normalsize
+
+\paragraph{Network Overview}
+Consider the neural network with one hidden layer shown in Figure \ref{fig:oneHL}. The input layer consists of 6 features $\xv = [x_1,...,x_6]^T$, the hidden layer has 4  nodes $\zv = [z_1,...,z_4]^T$, and the output layer is a probability distribution $\yv = [y_1, y_2, y_3]^T$ over 3 classes (\textbf{1-indexed} such that $y_i$ is the probability of label $i$).
+
+$\alphav^*$ is the matrix of weights from the inputs to the hidden layer and $\betav^*$ is the matrix of weights from the hidden layer to the output layer. 
+
+$\alpha^*_{j,i}$ represents the weight going \textit{to} the node $z_j$ in the hidden layer \textit{from} the node $x_i$ in the input layer (e.g. $\alpha^*_{1,2}$ is the weight from $x_2$ to $z_1$), and $\betav^*$ is defined similarly. We will use a sigmoid activation function for the hidden layer and a softmax for the output layer.
+
+The bias vectors $\alphav_b, \betav_b$ are defined such that the $j$th value of $\alphav_b$ (which we denote $\alpha_{j, b}$) is the bias value for $a_j$ and the $k$th value of $\betav_b$ is the bias value for $b_k$.
+
+\paragraph{Network Details}
+
+Equivalently, we define each of the following. 
+
+The input:
+\begin{align}
+\label{eqn:x}
+\xv=[x_1,x_2,x_3,x_4,x_5,x_6]^T
+\end{align}
+
+Linear combination at the first (hidden) layer:
+\begin{equation}
+\label{eqn:a}
+a_j= \alpha_{j, b} + \sum_{i=1}^6 \alpha^*_{j,i}\cdot x_i,\,\, \forall j \in \{1,\ldots,4\}
+\end{equation}
+
+Activation at the first (hidden) layer:
+\begin{align}
+\label{eqn:z}
+z_j &= \sigma(a_j) = \frac{1}{1+\exp(-a_j)},\,\, \forall j \in \{1,\ldots,4\}
+\end{align}
+Equivalently, we can write this as vector operation where the sigmoid activation is applied individually to each element of the vector $\av$:
+\begin{align}
+\label{eqn:zv}
+\zv &= \sigma(\av)
+\end{align}
+
+Linear combination at the second (output) layer:
+\begin{equation}
+\label{eqn:b}
+b_k = \beta_{k, b} + \sum_{j=1}^4 \beta^*_{k,j}\cdot z_j,\,\, \forall k \in \{1,\ldots,3\}
+\end{equation}
+
+Activation at the second (output) layer:
+\begin{equation}
+\label{eqn:yhat}
+\hat{y}_k = \frac{\exp(b_k)}{\sum\limits_{l=1}^3 \exp(b_l)},\,\, \forall k \in \{1,\ldots,3\}
+\end{equation}
+
+\paragraph{Loss}
+
+We will use cross entropy loss, $\ell(\hat{\yv},\yv)$. If $\yv$ represents our target output, which will be a one-hot vector representing the correct class, and $\hat{\yv}$ represents the output of the network, the loss is calculated by:
+\begin{equation}
+\label{eqn:loss}
+  \ell(\hat{\yv},\yv) = - \sum_{i=1}^3 y_i \log(\hat{y}_i)
+\end{equation}
+{\bf For the below questions use natural log in the equation.} \\
+
+\paragraph{Prediction}
+When doing prediction, we will predict the $\argmax$ of the output layer. For example, if $\hat{y}_1=0.3, \hat{y}_2=0.2, \hat{y}_3=0.5$ we would predict class 3. If the true class from the training data was $2$ we would have a one-hot vector $\yv$ with values $y_1=0$, $y_2=1$, $y_3=0$.
+
+\begin{parts}
+
+\part In the following questions you will derive the matrix and vector forms of the previous equations which define our neural network. These are what you should hope to program in order to keep your program under the Gradescope time-out.\\
+When working these out it is important to keep a note of the vector and matrix dimensions in order for you to easily identify what is and isn't a valid multiplication. Suppose you are given a training example: $\xv^{(1)}=[x_1,x_2,x_3,x_4,x_5,x_6]^T$ with \textbf{label class 2}, so $\yv^{(1)}=[0,1,0]^T$. We initialize the network weights as:
+\begin{center}
+$$\boldsymbol{\alpha^*}=
+    \begin{bmatrix}
+    \alpha_{1,1} & \alpha_{1,2} & \alpha_{1,3} & \alpha_{1,4} & \alpha_{1,5} & \alpha_{1,6} \\
+    \alpha_{2,1} & \alpha_{2,2} & \alpha_{2,3} & \alpha_{2,4} & \alpha_{2,5} & \alpha_{2,6} \\
+    \alpha_{3,1} & \alpha_{3,2} & \alpha_{3,3} & \alpha_{3,4} & \alpha_{3,5} & \alpha_{3,6} \\
+    \alpha_{4,1} & \alpha_{4,2} & \alpha_{4,3} & \alpha_{4,4} & \alpha_{4,5} & \alpha_{4,6}
+    \end{bmatrix}$$
+    
+$$\boldsymbol{\beta^*}=
+    \begin{bmatrix}
+    \beta_{1,1} & \beta_{1,2} & \beta_{1,3} & \beta_{1,4} \\
+    \beta_{2,1} & \beta_{2,2} & \beta_{2,3} & \beta_{2,4} \\
+    \beta_{3,1} & \beta_{3,2} & \beta_{3,3} & \beta_{3,4}
+    \end{bmatrix}
+$$
+\end{center}
+    
+We want to also consider the bias term and the weights on the bias terms (${\alpha}_{j,b}$ and ${\beta}_{k,b})$. To account for these we can add them as a new column to the beginning of our initial weight matrices to represent biases, (e.g. $\alpha_{1, 0} = \alpha_{1, b}$).
+
+$$\boldsymbol{\alpha}=
+    \begin{bmatrix}
+    \textcolor{blue}{\alpha_{1,0}} & \alpha_{1,1} & \alpha_{1,2} & \alpha_{1,3} & \alpha_{1,4} & \alpha_{1,5} & \alpha_{1,6} \\
+    \textcolor{blue}{\alpha_{2,0}} & \alpha_{2,1} & \alpha_{2,2} & \alpha_{2,3} & \alpha_{2,4} & \alpha_{2,5} & \alpha_{2,6} \\
+    \textcolor{blue}{\alpha_{3,0}} & \alpha_{3,1} & \alpha_{3,2} & \alpha_{3,3} & \alpha_{3,4} & \alpha_{3,5} & \alpha_{3,6} \\
+    \textcolor{blue}{\alpha_{4,0}} & \alpha_{4,1} & \alpha_{4,2} & \alpha_{4,0} & \alpha_{4,4} & \alpha_{4,5} & \alpha_{4,6}
+    \end{bmatrix}$$
+    
+$$\boldsymbol{\beta}=
+    \begin{bmatrix}
+    \textcolor{blue}{\beta_{1,0}} & \beta_{1,1} & \beta_{1,2} & \beta_{1,3} & \beta_{1,4} \\
+    \textcolor{blue}{\beta_{2,0}} & \beta_{2,1} & \beta_{2,2} & \beta_{2,3} & \beta_{2,4} \\
+    \textcolor{blue}{\beta_{3,0}} & \beta_{3,1} & \beta_{3,2} & \beta_{3,3} & \beta_{3,4}
+    \end{bmatrix}$$
+
+    We then add a corresponding new first dimension to our input vectors, always set to 1 ($x_0^{(i)} = 1$), so our input becomes: $$\xv^{(1)}=[\textcolor{blue}{1},x_1,x_2,x_3,x_4,x_5,x_6]^T$$
+    
+    
+    \begin{subparts}
+        \subpart[1] By examining the shapes of the initial weight matrices, how many neurons do we have in the first hidden layer of the neural network? \textbf{Do not include the bias in your count.}
+        
+        \begin{your_solution}[title=Answer,height=2cm,width=4cm]
+        % YOUR ANSWER 
+        \end{your_solution}
+
+        \subpart[1] How many output neurons will our neural network have?
+        
+        \begin{your_solution}[title=Answer,height=2cm,width=4cm]
+        % YOUR ANSWER 
+        \end{your_solution}
+
+        \subpart[1] What is the vector $\av$ whose elements are made up of the entries $a_j$ in Equation \ref{eqn:a} (using $x^{(1)}_i$ in place of $x_i$). Write your answer in terms of $\bm{\alpha}$ and $\xv^{(1)}$.
+        
+        \begin{your_solution}[title=Answer,height=2cm,width=4cm]
+        % YOUR ANSWER 
+        \end{your_solution}
+        
+
+        \clearpage
+
+        \subpart[1] \textbf{Select one:} We cannot take the matrix multiplication of our weights $\betav$ and the vector $\zv = [z_1, z_2, z_3, z_4]^T$ since they are not compatible shapes. Which of the following would allow us to take the matrix multiplication of $\betav$ and $\zv$ such that the entries of the vector $\bv = \boldsymbol{\beta}\zv$ are equivalent to the values of $b_k$ in Equation \ref{eqn:b}? 
+        
+        \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice A) Remove the first row of $\zv$
+        \choice B) Append a value of 1 to be the first entry of $\zv$.
+        \choice C) Append an additional column of 1's to be the first column of $\boldsymbol{\beta}$ 
+        \choice D) Append a row of 1's to be the first row of $\boldsymbol{\beta}$ 
+        \end{checkboxes}
+        
+
+       
+        \subpart[1] \textbf{Select one:} 
+        For what values of weights ($\betav$) will Linear layer ($b$) be reducible to a layer with a single neuron? Assume the bias is fixed to $0$.
+
+        A layer with $d$ neurons is said to be reducible to a layer with $1$ neuron, if all the other $d-1$ neurons have output $0$.
+        
+        \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice A) $\betav$ with just one column with non-zeros values
+        \choice B) $\betav$ with just one row with non-zeros values
+        \choice C) $\betav$ with all weights = 1
+        \choice D) $\betav$ with all weights = 0
+        \choice E) $\betav$ where: 1) $\betav_{ii}=1$ and 2) $\betav_{ij}=0$ where $i!=j$
+        \end{checkboxes}
+        
+
+        \clearpage
+
+\end{subparts}
+
+\part We will now derive the matrix and vector forms for the backpropagation algorithm, for example 
+$$\frac{\partial \ell}{\partial \alphav} = 
+    \begin{bmatrix}
+        \frac{\partial \ell}{\partial \alpha_{10}} & \frac{\partial \ell}{\partial \alpha_{11}} & \dots  & \frac{\partial \ell}{\partial \alpha_{16}} \\
+        \frac{\partial \ell}{\partial \alpha_{20}} & \frac{\partial \ell}{\partial \alpha_{21}} & \dots  & \frac{\partial \ell}{\partial \alpha_{26}} \\
+        \vdots      & \vdots      & \ddots & \vdots \\
+        \frac{\partial \ell}{\partial \alpha_{40}} & \frac{\partial \ell}{\partial \alpha_{41}} & \dots  & \frac{\partial \ell}{\partial \alpha_{46}}
+    \end{bmatrix}$$
+
+The level of mathematics which you will use in this section jumps significantly in difficulty. You should always be examining the shape of the matrices and vectors and making sure that you are comparing your matrix elements with calculations of individual derivatives to make sure they match (e.g., the element of the matrix $(\frac{\partial \ell}{\partial \boldsymbol{\alpha}})_{2,1}$ should be equal to $\frac{\partial \ell}{\partial \alpha_{2,1}}$  ). Recall that $\ell$ is our loss function defined in Equation \ref{eqn:loss}:
+
+{\bf Note}: all vectors are column vectors (i.e. an n dimensional vector $v \in \mathbb{R}^{n \times 1}$). \textbf{Assume that all input vectors to linear layers have a bias term folded in, unless otherwise specified}. All partial derivatives should be written in \href{https://en.wikipedia.org/wiki/Matrix_calculus#Denominator-layout_notation}{denominator layout notation}. An example of denominator notation is that $\frac{\partial \ell}{\partial \beta} \in \mathbb{R}^{3 \times 5}$ because $\beta \in \mathbb{R}^{3 \times 5}$.
+
+    
+\begin{subparts}
+    \subpart[1] What is the derivative $\frac{\partial \ell}{\partial \hat{y}_i}$, where $1 \leq i \leq 3$? Your answer should be in terms of $y_i$ and $\hat{y}_i$. Recall that we define the loss $\ell(\hat{y}, y)$ as follows (\textit{note: log is a natural log}):
+    \begin{align}
+        \ell(\hat{\yv},\yv) = - \sum_{i=1}^3 y_i \log(\hat{y}_i) \tag{\ref{eqn:loss}}
+    \end{align}
+    
+    \begin{your_solution}[title=${\partial \ell}/{\partial \hat{y}_i}$, height=3cm, width=15cm]
+    \end{your_solution}
+    
+    \clearpage
+
+    \subpart[1] What is the value of $\sum_l y_l$?
+
+     \begin{your_solution}[title=${\sum_l y_l}$, height=2.5cm, width=15cm]
+    \end{your_solution}
+
+    \subpart[2] The derivative of the softmax function with respect to $b_k$ is as follows:
+    \begin{equation}
+    \label{eqn:dydbk}
+    \frac{\partial \hat{y}_l}{\partial b_k} = \hat{y}_l(\Ib[k=l]-\hat{y}_k)
+    \end{equation}
+    where $\Ib[k=l]$ is an indicator function such that if $k=l$ then it returns value 1 and 0 otherwise.
+    
+    Using this and your result from (a), write the derivative $\frac{\partial \ell}{\partial b_k}$ in a smart way such that you do not need the indicator function in Equation \ref{eqn:dydbk}. Write your solutions in terms of $\hat{y}_k,y_k$. Show your work below.
+    
+    \textbf{Hint 1:} Recall that $\frac{\partial \ell}{\partial b_k} = \sum_l \frac{\partial \ell}{\partial \hat{y}_l}\frac{\partial \hat{y}_l}{\partial b_k}$.
+    
+    \textbf{Hint 2:} After substituting in your expressions for $\frac{\partial \ell}{\partial \hat{y}_l}$ and $\frac{\partial \hat{y}_l}{\partial b_k}$, try to rearrange terms so that you encounter the expression $\hat{y}_k \sum_l y_l$. Recall your solution to part b.
+    
+    \begin{your_solution}[title=$\partial \ell / \partial b_k$,height=11cm,width=15cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+    
+    \clearpage
+
+    \subpart[2] What is the derivative $\frac{\partial \ell}{\partial \betav}$? Your answer should be in terms of $\frac{\partial \ell}{\partial \bv}$ and $\zv$. 
+    
+    You should first consider a single entry in this matrix: $\frac{\partial \ell}{\partial \beta_{kj}}$.
+    
+    \begin{your_solution}[title=$\partial \ell/\partial \betav$,height=6cm,width=15cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+
+    \subpart[1] \textbf{Select one:} Why do we use the matrix $\betav^*$ (the matrix $\betav$ without the first column of bias values) instead of $\betav$ when calculating the derivative matrix $\frac{\partial \ell}{\partial \alpha}$? \textit{(Hint: try drawing a computation graph with the bias unfolded).}
+    
+    \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice A) The bias terms do not update, so there is no need to include them in backpropagation.
+        \choice B) It is the computationally cheapest column to remove to ensure that the dimensions match.
+        \choice C) The elements $\betav_{k,0}$ are not determined by the values of $\alpha$
+        \choice D) The derivative of loss with respect to the bias terms is always zero.
+    \end{checkboxes}
+
+    \subpart[1] What is the derivative $\frac{\partial \ell}{\partial \zv}$ \textbf{without the bias term}? Your answer should be in terms of $\frac{\partial \ell}{\partial \bv}$ and $\betav^*$.
+    
+    \begin{your_solution}[title=$\partial \ell/\partial \zv$,height=6cm,width=15cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+
+    \clearpage
+
+    \subpart[1] What is the derivative $\frac{\partial \ell}{\partial a_j}$ in terms of $\frac{\partial \ell}{\partial z_j}$ and $z_j$?
+    
+    \begin{your_solution}[title=$\partial \ell/\partial a_j$,height=3cm,width=15cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+    
+
+    \subpart[1] What is the matrix $\frac{\partial \ell}{\partial \boldsymbol{\alpha}}$? Your answer should be in terms of $\frac{\partial \ell}{\partial \av}$ and $\xv^{(1)}$.
+    
+    \begin{your_solution}[title=$\partial \ell/\partial \alphav$,height=6cm,width=15cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+    
+\end{subparts}
+
+\end{parts}
+
+\newpage
+\sectionquestion{Empirical Questions}
+\label{sec:interp}
+
+The following questions should be completed after you work through the programming portion of this assignment. \textbf{For any plotting questions, you must submit computer generated line graphs/curves, title your graph, label your axes, provide units (if applicable), and provide a legend in order to receive full credit.}
+
+For these questions, \textbf{use the small dataset} and the following values for the hyperparameters unless otherwise specified:
+
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Parameter} & \textbf{Value} \\
+        \hline
+        Number of Hidden Units & 50 \\
+        \hline
+        Weight Initialization & {\sc Random} \\
+        \hline
+        Learning Rate & 0.001 \\
+        \hline
+    \end{tabular}
+\end{center}
+
+\begin{parts}
+\part Hidden Units
+
+\begin{subparts}
+
+\subpart[2] Train a single hidden layer neural network using the hyperparameters mentioned in the table above, except for the number of hidden units which should vary among \textbf{5, 20, 50, 100, and 200}.  Run the optimization for 100 epochs each time.
+
+Plot the average training cross-entropy (sum of the cross-entropy terms over the training dataset divided by the total number of training examples) of the final epoch on the y-axis vs number of hidden units on the x-axis. In the \textbf{same figure}, plot the average validation cross-entropy. The x-axis should be the number of hidden units, the y-axis should be average cross-entropy loss, and there should be one curve for validation loss and one curve for train loss.
+        
+\begin{your_solution}[title=Avg. Train and Validation Cross-Entropy Loss,height=10cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\clearpage
+
+
+\subpart[2] Examine and comment on the the plots of training and validation cross-entropy. What problem arises with too few hidden units, and why does it happen? 
+
+\begin{your_solution}[title=Answer,height=4cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\end{subparts}
+
+\part Learning Rate
+
+
+\begin{subparts}
+\subpart[6] Train a single hidden layer neural network using the hyperparameters mentioned in the table above with the following learning rates: \textbf{0.03, 0.003, and 0.0003}. Run the optimization for 100 epochs each time.
+
+Plot the average training cross-entropy on the y-axis vs the number of epochs on the x-axis for the mentioned learning rates. In the \textbf{same figure}, plot the average validation cross-entropy loss. Make a separate figure for each learning rate.  The x-axis should be epoch number, the y-axis should be average cross-entropy loss, and there should be one curve for training loss and one curve for validation loss.
+
+
+\begin{your_solution}[title=Plot LR 0.03,height=10cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\begin{your_solution}[title=Plot LR 0.003,height=10cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\begin{your_solution}[title=Plot LR 0.0003,height=10cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\clearpage
+
+\subpart[1] Examine and comment on the convergence rates of the three models using the plots of training and validation cross-entropy. Are there any learning rates for which convergence is not achieved?
+
+\begin{your_solution}[title=Answer,height=5cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\subpart[1] Are there any learning rates that exhibit other problems? If so, describe these issues and list the learning rates that cause them.
+
+\begin{your_solution}[title=Answer,height=2.5cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\end{subparts}
+
+\part Weight Initialization
+
+
+\begin{subparts}
+
+\subpart[2]
+For this exercise, you can work on any data set. Initialize $\alphav$ and $\betav$ to zero and print them out after the first few updates. For example, you may use the following command to begin:  
+\begin{lstlisting}[language=Shell]
+$ python neuralnet.py small_train.csv small_validation.csv \
+small_train_out.labels small_validation_out.labels \
+small_metrics_out.txt 1 4 2 0.1
+\end{lstlisting}
+Compare the values across rows and columns in $\alphav$ and $\betav$. Describe the observed behavior and explain why this may happen.
+
+
+\begin{your_solution}[title=Answer,height=5cm,width=14.5cm]
+% YOUR ANSWER 
+\end{your_solution}
+
+\end{subparts}
+
+\end{parts}
+\newpage
+\end{questions}
+\newpage
+\section{Collaboration Questions}
+After you have completed all other components of this assignment, report your answers to these questions regarding the collaboration policy. Details of the policy can be found \href{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}{here}.
+\begin{enumerate}
+    \item Did you receive any help whatsoever from anyone in solving this assignment? If so, include full details.
+    \item Did you give any help whatsoever to anyone in solving this assignment? If so, include full details.
+    \item Did you find or come across code that implements any part of this assignment? If so, include full details.
+\end{enumerate}
+
+\begin{your_solution}[height=6cm]
+% YOUR ANSWER 
+
+\end{your_solution}
+\newpage
+
+{\LARGE \bf Programming (55 points)}
+
+\begin{figure}[H]
+    \centering
+    \captionsetup{justification=centering, margin=2cm}
+    \includegraphics[scale=0.8]{img/lettergrid.png}
+    \caption{10 random images of each of the 10 letters in the OCR dataset.}
+    \label{fig:grid}
+\end{figure}
+
+\section{The Task}
+Your goal in this assignment is to implement a neural network to classify images using a single hidden layer neural network.
+
+\section{The Datasets}
+\label{sec:dataset}
+
+\paragraph{Datasets} We will be using a \textbf{subset} of an Optical Character Recognition (OCR) dataset. This data includes images of all 26 handwritten letters; our subset will include \textbf{only} the letters ``a," ``e," ``g," ``i," ``l," ``n," ``o," ``r," ``t," and ``u."  The handout contains a small dataset with 60 samples \textit{per class} (50 for training and 10 for validation). We will also evaluate your code on a medium dataset with 600 samples per class (500 for training and 100 for validation). Figure \ref{fig:grid} shows a random sample of 10 images of a few letters from the dataset (not the same ones we're classifying in this assignment).
+
+\paragraph{File Format} Each dataset (small, medium, and large) consists of two csv files---train and validation. Each row contains 129 columns separated by commas. The first column contains the label and columns 2 to 129 represent the pixel values of a $16 \times 8$ image in a row major format. Label 0 corresponds to ``a," 1 to ``e," 2 to ``g," 3 to ``i," 4 to ``l," 5 to ``n," 6 to ``o," 7 to ``r," 8 to ``t," and 9 to ``u."
+
+Because the original images are black-and-white (not grayscale), the pixel values are either 0 or 1. However, you should write your code to accept arbitrary pixel values in the range [0, 1]. The images in Figure \ref{fig:grid} were produced by converting these pixel values into .png files for visualization. Observe that no feature engineering has been done here; instead the neural network you build will \emph{learn} features appropriate for the task of character recognition.
+
+\section{Model Definition}
+\label{sec:model}
+
+In this assignment, you will implement a single-hidden-layer neural network with a sigmoid activation function for the hidden layer, and a softmax on the output layer. Let the input vectors $\xv$ be of length $M$, and the hidden layer $\zv$ consist of $D$ hidden units. In addition, let the output layer $\hat{\yv}$ be a probability distribution over $K$ classes. That is, each element $\hat{y}_k$ of the output vector represents the probability of $\xv$ belonging to the class $k$.
+
+We can compactly express this model by assuming that $x_0=1$ is a bias feature on the input and that $z_0=1$ is also fixed. In this way, we have two parameter matrices $\alphav \in \Rb^{D \times (M+1)}$ and $\betav \in \Rb^{K \times (D+1)}$. The extra $0$th column of each matrix (i.e. $\alphav_{\cdot, 0}$ and $\betav_{\cdot, 0}$) hold the bias parameters.
+
+\begin{align*}
+a_j &= \sum_{m=0}^M \alpha_{j,m} x_m
+\\
+z_j &= \sigma(a_j) = \frac{1}{1+\exp(-a_j)}
+\\
+b_k &= \sum_{j=0}^D \beta_{k,j} z_j
+\\
+\hat{y}_k &= \text{Softmax}(\mathbf{b}) = \frac{\exp(b_k)}{\sum_{l=1}^K \exp(b_l)}
+\\
+\end{align*}
+
+The objective function we will use for training the neural network is the average cross entropy over the training dataset $\Dc = \{ (\xv^{(i)}, \yv^{(i)}) \}$:
+
+\begin{equation}
+\label{eq:celoss}
+J(\alphav, \betav)= - \frac{1}{N} \sum_{i=1}^N \sum_{k=1}^{K} y_k^{(i)} \log (\hat{y}^{(i)}_k)
+\end{equation}
+
+In Equation~\ref{eq:celoss}, $J$ is a function of the model parameters $\alphav$ and $\betav$ because $\hat{y}^{(i)}_k$ is the output of the neural network applied to $\xv^{(i)}$ and is therefore implicitly a function of $\xv^{(i)}$, $\alphav$, and $\betav$. $\hat{y}^{(i)}_k$ and $y_k^{(i)}$ are the $k$th components of $\hat{\yv}^{(i)}$ and $\yv^{(i)}$ respectively.
+
+To train, you should optimize this objective function using stochastic gradient descent (SGD), where the gradient of the parameters for each training example is computed via backpropagation. You should shuffle the training points when performing SGD using the provided \verb|shuffle| function, passing in the epoch number as a random seed. Note that SGD has a slight impact on the objective function as we are ``summing" over just the current point, $i$, and not the entire dataset:
+\begin{equation}
+\label{eq:sgd_celoss}
+J_{SGD}(\alphav, \betav)= -\sum_{k=1}^{K} y_k^{(i)} \log (\hat{y}^{(i)}_k)
+\end{equation}
+
+You will use the (hopefully at this point) familiar SGD update rule to update the parameters of your model:
+\begin{align}
+\label{eq:sgd_update}
+\alphav_{t+1} &\leftarrow \alphav_t - \gamma \frac{\partial J_{SGD}(\alphav_t, \betav_t)}{\partial \alphav_t} \\
+\betav_{t+1} &\leftarrow \betav_t - \gamma \frac{\partial J_{SGD}(\alphav_t, \betav_t)}{\partial \betav_t}
+\end{align}
+where $\gamma$ is the learning rate, and $\alphav_t$ and $\betav_t$ are the values of $\alphav$ and $\betav$ at step $t$ (similarly for $\alphav_{t+1}$ and $\betav_{t+1}$).
+
+\subsection{Initialization}
+\label{sec:init}
+
+In order to use a deep network, we must first initialize the weights and biases in the network. This is typically done with a random initialization, or initializing the weights from some other training procedure. For this assignment, we will be using two possible initializations: 
+\begin{quote}
+\begin{description}
+\item[{\sc Random}] The weights are initialized randomly from a uniform distribution from -0.1 to 0.1. The bias parameters are initialized to zero.
+\item[{\sc Zero}] All weights are initialized to 0.  
+\end{description}
+\end{quote}
+
+You must support both of these initialization schemes.
+
+\section{Implementation}
+
+Write a program \texttt{neuralnet.py} that implements an optical character recognizer using a one hidden layer neural network with sigmoid activations. Your program should learn the parameters of the model on the training data, report the cross-entropy at the end of each epoch on both train and validation data, and at the end of training write out its predictions and error rates on both datasets. 
+
+Your implementation must satisfy the following requirements:
+
+\begin{itemize}
+    \item Use a {\bf sigmoid} activation function on the hidden layer and {\bf softmax} on the  output layer to ensure it forms a proper probability distribution.
+    \item Number of {\bf hidden units} for the hidden layer should be determined by a command line flag. (More details on command line flags provided below.)
+    \item Support two different {\bf initialization strategies}, as described in Section \ref{sec:init}, selecting between them via a command line flag.
+    \item Use stochastic gradient descent (SGD) to optimize the parameters for one hidden layer neural network. The number of {\bf epochs} will be specified as a command line flag. 
+    \item Set the {\bf learning rate} via a command line flag.
+    \item Perform stochastic gradient descent updates on the training data on the data shuffled with the provided function. For each epoch, you must reshuffle the \textbf{original} file data, not the data from the previous epoch.
+    \item You may assume that the input data will always have the same output label space (i.e. $\{0,1,\ldots,9\}$). Other than this, do not hard-code any aspect of the datasets into your code. We will autograde your programs on multiple data sets that include different examples.
+    \item In case there is a tie in the output layer $\hat{\yv}$, predict the smallest index to be the label. (Hint: you shouldn't need to write extra code for tie-breaking if you are using the appropriate NumPy function.)
+    \item Do \emph{not} use any machine learning libraries. You may use NumPy.
+\end{itemize}
+
+Implementing a neural network can be tricky: the parameters are not just a simple vector, but a collection of many parameters; computational efficiency of the model itself becomes essential; the initialization strategy dramatically impacts overall learning quality;  other aspects which we will \emph{not} change (e.g. activation function, optimization method) also have a large effect. These tips should help you along the way:
+
+\begin{itemize}
+\item Try to ``vectorize'' your code as much as possible---this is particularly important for Python. For example, in Python, you want to avoid for-loops and instead rely on \lstinline{numpy} calls to perform operations such as matrix multiplication, transpose, subtraction, etc., over an entire \lstinline{numpy} array at once. Why? Because those calls can be much faster! Those operations are actually implemented in fast C code, which won't get bogged down the way a high-level scripting language like Python will.
+\item Implement a finite difference test to check whether your implementation of backpropagation is correctly computing gradients. If you choose to do this, comment out this functionality once your backward pass starts giving correct results and before submitting to Gradescope---since it will otherwise slow down your code.
+\end{itemize}
+
+\subsection{Command Line Arguments}
+\label{sec:args}
+The autograder runs and evaluates the output from the files generated, using the following command:
+
+\begin{lstlisting}[language=Shell]
+$ python3 neuralnet.py [args...]
+\end{lstlisting}
+
+Where above \texttt{[args\dots]} is a placeholder for nine command-line arguments: \texttt{<train\_input>}\newline \texttt{validation\_input> <train\_out> <validation\_out> <metrics\_out> <num\_epoch> \newline <hidden\_units>  <init\_flag> <learning\_rate>}. These arguments are described in detail below:
+\begin{enumerate}
+    \item \texttt{<train\_input>}: path to the training input \texttt{.csv} file (see Section~\ref{sec:dataset})
+    \item \texttt{<validation\_input>}: path to the validation input \texttt{.csv} file (see Section~\ref{sec:dataset})
+    \item \texttt{<train\_out>}: path to output \texttt{.labels} file to which the prediction on the \emph{training} data should be written (see Section~\ref{output})
+    \item \texttt{<validation\_out>}: path to output \texttt{.labels} file to which the prediction on the \emph{validation} data should be written (see Section~\ref{output})
+    \item \texttt{<metrics\_out>}: path of the output \texttt{.txt} file to which metrics such as train and validation\thinspace error should be written (see Section~\ref{metrics})
+    \item \texttt{<num\_epoch>}: integer specifying the number of times backpropagation loops through all of the training data (e.g., if \texttt{<num\_epoch>} equals 5, then each training example will be used in backpropagation 5 times).
+    \item \texttt{<hidden\_units>}: positive integer specifying the number of hidden units. 
+    \item \texttt{<init\_flag>}: integer taking value 1 or 2 that specifies whether to use {\sc Random} or {\sc Zero} initialization (see Section~\ref{sec:init} and Section~\ref{sec:model})---that is, if \lstinline{init_flag}==1 initialize your weights randomly from a uniform distribution over the range [-0.1, 0.1] (i.e. {\sc Random}), if \lstinline{init_flag}==2 initialize all weights to zero (i.e. {\sc Zero}). For both settings, {\bf always initialize bias terms to zero}.
+    \item \texttt{<learning\_rate>}: float value specifying the learning rate for SGD.
+
+\end{enumerate}
+
+As an example, if you implemented your program in Python, the following command line would run your program with 4 hidden units on the small data provided in the handout for 2 epochs using zero initialization and a learning rate of 0.1.
+\\
+\begin{lstlisting}[language=Shell]
+python3 neuralnet.py small_train.csv small_validation.csv \
+small_train_out.labels small_validation_out.labels \
+small_metrics_out.txt 2 4 2 0.1 
+\end{lstlisting}
+
+The command line arguments are parsed for you in \texttt{neuralnet.py} using the Python builtin \texttt{argparse} package.
+
+\subsection{Output: Labels Files} \label{output}
+Your program should write two output \texttt{.labels} files containing the predictions of your model on training data (\texttt{<train\_out>}) and validation\thinspace data (\texttt{<validation\_out>}). Each should contain the predicted labels for each example printed on a new line. Use \lstinline{\n} to create a new line. 
+
+Your labels should exactly match those of a reference implementation -- this will be checked by the autograder by running your program and evaluating your output file against the reference solution.
+
+We've included code which outputs correctly formatted labels for you in \texttt{neuralnet.py}.
+
+\textbf{Note}: You should output your predicted labels using the same \emph{integer} identifiers as the original training data. You should also insert an empty line (using ’\textbackslash n’) at the end of each sequence (as is done in the input data files).
+
+\subsection{Output: Metrics} \label{metrics}
+Generate a file where you report the following metrics: 
+
+\begin{description}
+\item[cross entropy] After each epoch, report mean cross entropy on the training data \lstinline{crossentropy(train)} and validation\thinspace data \texttt{crossentropy(validation)} (See Equation~\ref{eq:celoss}). These two cross-entropy values should be reported at the end of each epoch and prefixed by the epoch number. For example, after the second pass through the training examples, these should be prefixed by \lstinline{epoch=2}. The total number of train losses you print out should equal \texttt{num\_epoch}---likewise for the total number of validation\thinspace losses.
+\item[error] After the final epoch (i.e. when training has completed fully), report the final training error \lstinline{error(train)} and validation\thinspace error \texttt{error(validation)}. 
+\end{description}
+
+A sample output for the small data set is given below. It contains the train and validation\thinspace losses for the first 2 epochs and the final error rate output by the command given at the end of section
+\ref{sec:args} Command Line Arguments.
+
+\begin{lstlisting}
+epoch=1 crossentropy(train): 2.1415670910950144
+epoch=1 crossentropy(validation): 2.1502231738985618
+epoch=2 crossentropy(train): 1.8642629963917074
+epoch=2 crossentropy(validation): 1.8780601379038728
+error(train): 0.73
+error(validation): 0.72
+\end{lstlisting}
+
+Take care that your output has the exact same format as shown above. There is an equal sign \lstinline{=} between the word \lstinline{epoch} and the epoch number, but no spaces. There should be a single space after the epoch number (e.g. a space after \lstinline{epoch=1}), and a single space after the colon preceding the metric value (e.g. a space after \lstinline{epoch=1 crossentropy(train):}). Each line should be terminated by a Unix line ending \lstinline{\n}. We've include code which correctly formats your metrics for you in \texttt{neuralnet.py}.
+
+\subsection{Unit Tests} \label{unittests}
+To help you debug your code, we've included a unit test file in your handout, \texttt{tests.py}. This is a \emph{nonexhaustive} set of unit tests which are meant to help you make sure your implementation is correct. Passing these tests does not guarantee a full score in your Gradescope submission, but it will help you identify functions which have errors. Do not edit these tests as we will not be able to guarantee correctness if you modify these tests.
+
+To run the unit tests, run the following command lines:
+\begin{lstlisting}[language=Shell]
+To run one test: python -m unittest tests.TestRandomInit.test_shape
+To run one set of tests: python -m unittest tests.TestRandomInit
+To run all tests: python -m unittest tests
+\end{lstlisting}
+
+If the above commands give you errors, try replacing \texttt{python} with \texttt{python3}.
+
+\section{Gradescope Submission}
+You should submit your \texttt{neuralnet.py} to Gradescope. \textbf{Any other files will be deleted.} Please do not use any other file name for your implementation. This will cause problems for the autograder to correctly detect and run your code.
+
+Make sure to read the autograder output carefully. The autograder for Gradescope prints out some additional information about the tests that it ran. For this programming assignment we've specially designed some buggy implementations that you might implement and will try our best to detect those and give you some more useful feedback in Gradescope's autograder. Make wise use of autograder's output for debugging your code.
+
+\textbf{Note:} For this assignment, you may make up to \textbf{10} submissions to Gradescope before the deadline, but only your last submission will be graded.
+
+\newpage
+
+\section{Module-Based Neural Net Implementation}
+
+\subsection{Module-based Method of Implementation}
+\label{sec:modulebased}
+
+Module-based automatic differentiation (AD) is a technique that has long been used to develop libraries for deep learning, and is the method of implementation that you are encouraged to follow in this assignment. Dynamic neural network packages are those that allow a specification of the computation graph dynamically at runtime, such as Torch\footnote{\url{http://torch.ch/}}, PyTorch\footnote{\url{http://pytorch.org/}}, and DyNet\footnote{\url{https://dynet.readthedocs.io}}---these all employ module-based AD in the sense that we will describe here.\footnote{Static neural network packages are those that require a static specification of a computation graph which is subsequently compiled into code. Examples include Theano, Tensorflow, and CNTK. These libraries are also module-based but the particular form of implementation is different from the dynamic method we recommend here.}
+
+The key idea behind module-based AD is to componentize the computation of the neural-network into layers. Each layer can be thought of as consolidating numerous nodes in the computation graph (a subset of them) into one \emph{vector-valued} node. Such a vector-valued node should be capable of the following and we call each one a {\bf module} (corresponding to a class in Python):
+\begin{enumerate}
+    \item Forward computation of output $\bv = [b_1, \ldots, b_B]$ given input $\av = [a_1, \ldots, a_A]$ via some differentiable function $f$. That is, $\bv = f(\av)$. 
+    \item Backward computation of the gradient of the input $\gv_{\av} = \frac{\partial J}{\partial \av} = [\adj{a_1}, \ldots, \adj{a_A}]$ given the gradient of output $\gv_{\bv} = \frac{\partial J}{\partial \bv} = [\adj{b_1}, \ldots, \adj{b_B}]$, where $J$ is the final real-valued output of the entire computation graph. This is done via the chain rule $\adj{a_i} = \sum_{j=1}^B \adj{b_j} \frac{\partial  b_j}{\partial  a_i}$ for all $i \in \{1, \ldots, A\}$.
+\end{enumerate}
+
+\subsubsection{Module Definitions}
+
+In our implementation, the modules we will define for our neural network correspond to a Linear layer and a Sigmoid layer. While it is possible to additionally define modules for Softmax and Cross-Entropy, we keep them as functions for simplicity (though you are welcome to turn them into modules as well if you wish). Each module defines a forward method $\bv = \textproc{*.Forward}(\av)$, and a backward method $\gv_{\av} = \textproc{*.Backward}(\gv_{\bv})$. In other words, the forward method yields the output, $\bv$, given the input, $\av$; meanwhile, the backward method yields the gradient with respect to the input, $\gv_{\av}$, given the gradient with respect to the output, $\gv_{\bv}$. Each module may also store certain values as appropriate (for instance, the Linear layers store the weight matrices $\alphav, \betav$).
+
+Note that for linear modules in particular, while the gradients with respect to the inputs and outputs are passed in and out of the modules, the gradients with respect to the weight matrices, $\gv_{\alphav}$ and $\gv_{\betav}$ are \textbf{not}. This follows the object-oriented design principle of encapsulation -- $\gv_{\alphav}$ and $\gv_{\betav}$ are only required by their respective linear layers, so we only store them within the linear module itself. Later on, they will be used for a SGD update, which will be performed by an additional $\textproc{Step}$ method. (Alternatively, since the SGD update for this assignment is always applied per example, you may directly perform the SGD update within \textproc{Backward}, though you should be extra careful about the order of your operations.)
+
+Further, if you've completed Written Question 2, you might notice that though we only pass $\gv_{\bv}$, the gradient with respect to the module output, into $\textproc{*.Backward}(\gv_{\bv})$, we may need more than that to calculate some of the layer's gradients. Specifically, if you inspect your expressions for the gradient, you may notice that they use certain values from the forward pass. Hence, in your forward methods, you will want to \textbf{cache} certain values to be used later on in the backward pass. In the starter code, we do so via a $\texttt{cache}$ dictionary as a class attribute, wherein you can store parameter names as keys that map to their cached values.
+
+Finally, you’ll want to pay close attention to the dimensions that you pass into and return from your modules. The dimensions $A$ and $B$ are specific to the module such that we have input $\av \in \Rb^A$, output $\bv \in \Rb^B$, gradient of output $\gv_{\av} \triangleq \nabla_{\av}J \in \Rb^A$, and gradient of input $\gv_{\bv} \triangleq \nabla_{\bv}J \in \Rb^B$. 
+
+We have provided you the pseudocode for the Linear Module as an example.
+
+\begin{description}
+    \item[Linear Module]
+\end{description}
+\begin{algorithm}
+      \begin{algorithmic}[1]
+        \Procedure{Forward}{$\av$}
+          \State Compute $\bv$ using this layer's weight matrix
+          \State Cache intermediate value(s) for the backward pass \Comment{See Written Question 1.2(d)}
+          \State \textbf{return} $\bv$
+        \EndProcedure
+        \Procedure{Backward}{$\gv_{\bv}$}
+          \State Bring the necessary cached values into scope
+          \State Compute $\gv_{\alphav}$ 
+          \State Compute $\gv_{\av}$ 
+          \State Store $\gv_{\alphav}$ for subsequent SGD update
+          \State \textbf{return} $\gv_{\av}$
+        \EndProcedure
+        \Procedure{Step}{\,}
+          \State Apply SGD update to weights $\alpha$ using stored gradient $\gv_{\alphav}$
+        \EndProcedure
+      \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Module-based AD for Neural Network}
+
+Given that our one hidden layer neural network is a composition of modules, we can define functions for forward and backward propagation using these modules as follows:
+
+\begin{algorithm}[H]
+  \caption{Forward Computation}
+  \label{alg:forwardmodule}
+  \begin{algorithmic}[1] % The number tells where the line numbering should start
+    \Procedure{NNForward}{Training example ($\xv$, $\yv$)}
+      \State $\av = \textproc{Linear1.Forward}(\xv)$ \Comment{First linear layer module}
+      \State $\zv = \textproc{Sigmoid.Forward}(\av)$ \Comment{Sigmoid activation module}
+      \State $\bv = \textproc{Linear2.Forward}(\zv)$
+      \Comment{Second linear layer module}
+      \State $\hat{\yv} = \textproc{Softmax}(\bv)$ \Comment{Softmax \textit{function}}
+      \State $J = \textproc{CrossEntropy}(\yv, \hat{\yv})$ \Comment{CrossEntropy \textit{function}}
+      \State \textbf{return} $J, \hat{\yv}$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+  \caption{Backpropagation}
+  \label{alg:backpropmodule}
+  \begin{algorithmic}[1] % The number tells where the line numbering should start
+    \Procedure{NNBackward}{$\yv$, $\hat{\yv}$}
+      \State $g_J = \frac{\partial J}{\partial J} = 1$ \Comment{Base case}
+      \State $\gv_{\bv} = \textproc{dSoftmaxCrossEntropy}(\yv, \hat{\yv}, g_J)$ \Comment{See Written Question 1.2(b)}
+      \State $\gv_{\zv} = \textproc{Linear2.Backward}(\gv_{\bv})$
+      \State $\gv_{\av} = \textproc{Sigmoid.Backward}(\gv_{\zv})$
+      \State $\gv_{\xv} = \textproc{Linear1.Backward}(\gv_{\av})$ \Comment{We discard $\gv_{\xv}$}
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+Here's the big takeaway: we can actually view these two functions as themselves defining another module! It is a 1-hidden layer neural network module. That is, the cross-entropy of the neural network for a single training example is \emph{itself} a differentiable function and we know how to compute the gradients of its inputs, given the gradients of its outputs. 
+
+\subsection{Training Procedure}
+\label{sec:sgd}
+
+Consider the neural network described in Section \ref{sec:model} applied to the $i$th training example $(\xv, \yv)$ where $\yv$ is a one-hot encoding of the true label. Our neural network outputs $\hat{\yv} = h_{\alphav, \betav}(\xv)$, where $\alphav$ and $\betav$ are the parameters of the first and second layers respectively and $h_{\alphav, \betav}$ is a one-hidden layer neural network with a sigmoid activation and softmax output. The loss function is negative cross-entropy $J = \ell(\hat{\yv}, \yv) = - \yv^T \log(\hat{\yv})$. $J = J_{\xv, \yv}(\alphav, \betav)$ is actually a function of our training example ($\xv, \yv$) as well as our model parameters $\alphav, \betav$, though we write just $J$ for brevity.
+
+In order to train our neural network, we are going to apply stochastic gradient descent (SGD). Because we want the behavior of your program to be approximately deterministic for testing on Gradescope, we will require that (1) you should use \emph{our provided} shuffle function to shuffle your data at the start of each epoch and (2) you will use a fixed learning rate.
+
+SGD proceeds as follows, where $E$ is the number of epochs and $\gamma$ is the learning rate.
+
+\begin{algorithm}[H]
+  \caption{Training with Stochastic Gradient Descent (SGD)}
+  \label{alg:sgd}
+  \begin{algorithmic}[1] % The number tells where the line numbering should start
+    \Procedure{SGD}{Training data $\Dc_{train}$, \ntset\thinspace data $\Dc_t$} 
+      \State Initialize parameters $\alphav, \betav$ \Comment{Use either {\sc Random} or {\sc Zero} from Section \ref{sec:init}}
+      \For{$e \in \{1, 2, \ldots, E\}$} \Comment{For each epoch}
+        \State $\Dc = \textproc{Shuffle}(\Dc_{train}, e)$
+        \For{$(\xv, \yv) \in \Dc$} \Comment{For each training example}
+          \State Compute neural network forward prop:
+          \State $J, \hat{y} = \textproc{NN.Forward}(\xv, \yv, \alphav, \betav)$
+          \State Compute gradients via backprop: 
+          \State 
+              $
+                \begin{drcases}
+                \gv_{\alphav} = \frac{\partial J}{\partial \alphav} \\
+                \gv_{\betav} = \frac{\partial J}{\partial \betav}
+                \end{drcases} 
+                \text{given by\,} \textproc{NN.Backward}(\yv, \hat{\yv})
+              $
+          \State Update parameters with SGD updates $\gv_{\alphav}, \gv_{\betav}$:
+          \State $\alphav \gets \alphav - \gamma \gv_{\alphav}$
+          \State $\betav \gets \betav - \gamma \gv_{\betav}$
+        \EndFor
+        \State Evaluate training mean cross-entropy $J_{\Dc}(\alphav, \betav)$
+        \State Evaluate \ntset\thinspace mean cross-entropy $J_{\Dc_t}(\alphav, \betav)$
+      \EndFor
+      \State \textbf{return} parameters $\alphav, \betav$
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Testing Procedure}
+At test time, we output the most likely prediction for each example: 
+
+\begin{algorithm}[H]
+  \caption{Prediction at Test Time}
+  \label{alg:predict}
+  \begin{algorithmic}[1] % The number tells where the line numbering should start
+    \Procedure{Predict}{Unlabeled train or \ntset\thinspace dataset $\Dc'$} 
+    \For{$\xv \in \Dc'$}
+      \State Compute neural network prediction $\hat{\yv} = h(\xv)$
+      \State Predict the label with highest probability $l = \argmax_k \hat{y}_k$
+    \EndFor
+    \EndProcedure
+  \end{algorithmic}
+\end{algorithm}
+\newpage
+
+
+% \appendix
+% \input{appendix.tex}
+
+\end{document}https://www.overleaf.com/project/64e38ef1dbf787388196468c

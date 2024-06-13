@@ -1,0 +1,1387 @@
+\documentclass[11pt,addpoints,answers]{exam}
+
+%-----------------------------------------------------------------------------
+% PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%-----------------------------------------------------------------------------
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsfonts}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{titling}
+\usepackage{url}
+\usepackage{xfrac}
+\usepackage{natbib}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{paralist}
+\usepackage{epstopdf}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{float}
+\usepackage{enumerate}
+\usepackage{array}
+\usepackage{environ}
+\usepackage{times}
+\usepackage{textcomp}
+\usepackage{caption}
+\usepackage{parskip} % For NIPS style paragraphs.
+\usepackage[compact]{titlesec} % Less whitespace around titles
+\usepackage[inline]{enumitem} % For inline enumerate* and itemize*
+\usepackage{datetime}
+\usepackage{comment}
+% \usepackage{minted}
+\usepackage{lastpage}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage[final]{listings}
+\usepackage{tikz}
+\usetikzlibrary{shapes,decorations}
+\usepackage{framed}
+\usepackage{booktabs}
+\usepackage{cprotect}
+\usepackage{verbatim}
+\usepackage{verbatimbox}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{mathtools} % For drcases
+\usepackage{cancel}
+\usepackage[many]{tcolorbox}
+\usepackage{soul}
+\usepackage[bottom]{footmisc}
+\usepackage{bm}
+\usepackage{wasysym}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{positioning, arrows, automata, calc}
+\usepackage{transparent}
+\usepackage{tikz-cd}
+
+\newtcolorbox[]{your_solution}[1][]{
+    % breakable,
+    enhanced,
+    nobeforeafter,
+    colback=white,
+    title=Your Answer,
+    sidebyside align=top,
+    box align=top,
+    #1
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Formatting for \CorrectChoice of "exam" %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\CorrectChoiceEmphasis{}
+\checkedchar{\blackcircle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rotated Column Headers                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{adjustbox}
+\usepackage{array}
+
+%https://tex.stackexchange.com/questions/32683/rotated-column-titles-in-tabular
+
+\newcolumntype{R}[2]{%
+    >{\adjustbox{angle=#1,lap=\width-(#2)}\bgroup}%
+    l%
+    <{\egroup}%
+}
+\newcommand*\rot{\multicolumn{1}{R{45}{1em}}}% no optional argument here, please!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom commands                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\vc}[1]{\boldsymbol{#1}}
+\newcommand{\adj}[1]{\frac{d J}{d #1}}
+\newcommand{\chain}[2]{\adj{#2} = \adj{#1}\frac{d #1}{d #2}}
+
+\newcommand{\independent}{\perp\!\!\!\perp}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\blackcircle}{\tikz\draw[black,fill=black] (0,0) circle (1ex);}
+\renewcommand{\circle}{\tikz\draw[black] (0,0) circle (1ex);}
+
+\newcommand{\emptysquare}{{\LARGE $\square$}\ \ }
+\newcommand{\filledsquare}{{\LARGE $\blacksquare$}\ \ }
+\newcommand{\emptycircle}{{\LARGE $\fullmoon$}\ \ }
+\newcommand{\filledcircle}{{\LARGE $\newmoon$}\ \ }
+
+\newcommand{\ntset}{test}
+
+% mathcal
+\newcommand{\Ac}{\mathcal{A}}
+\newcommand{\Bc}{\mathcal{B}}
+\newcommand{\Cc}{\mathcal{C}}
+\newcommand{\Dc}{\mathcal{D}}
+\newcommand{\Ec}{\mathcal{E}}
+\newcommand{\Fc}{\mathcal{F}}
+\newcommand{\Gc}{\mathcal{G}}
+\newcommand{\Hc}{\mathcal{H}}
+\newcommand{\Ic}{\mathcal{I}}
+\newcommand{\Jc}{\mathcal{J}}
+\newcommand{\Kc}{\mathcal{K}}
+\newcommand{\Lc}{\mathcal{L}}
+\newcommand{\Mc}{\mathcal{M}}
+\newcommand{\Nc}{\mathcal{N}}
+\newcommand{\Oc}{\mathcal{O}}
+\newcommand{\Pc}{\mathcal{P}}
+\newcommand{\Qc}{\mathcal{Q}}
+\newcommand{\Rc}{\mathcal{R}}
+\newcommand{\Sc}{\mathcal{S}}
+\newcommand{\Tc}{\mathcal{T}}
+\newcommand{\Uc}{\mathcal{U}}
+\newcommand{\Vc}{\mathcal{V}}
+\newcommand{\Wc}{\mathcal{W}}
+\newcommand{\Xc}{\mathcal{X}}
+\newcommand{\Yc}{\mathcal{Y}}
+\newcommand{\Zc}{\mathcal{Z}}
+
+% mathbb
+\newcommand{\Ab}{\mathbb{A}}
+\newcommand{\Bb}{\mathbb{B}}
+\newcommand{\Cb}{\mathbb{C}}
+\newcommand{\Db}{\mathbb{D}}
+\newcommand{\Eb}{\mathbb{E}}
+\newcommand{\Fb}{\mathbb{F}}
+\newcommand{\Gb}{\mathbb{G}}
+\newcommand{\Hb}{\mathbb{H}}
+\newcommand{\Ib}{\mathbb{I}}
+\newcommand{\Jb}{\mathbb{J}}
+\newcommand{\Kb}{\mathbb{K}}
+\newcommand{\Lb}{\mathbb{L}}
+\newcommand{\Mb}{\mathbb{M}}
+\newcommand{\Nb}{\mathbb{N}}
+\newcommand{\Ob}{\mathbb{O}}
+\newcommand{\Pb}{\mathbb{P}}
+\newcommand{\Qb}{\mathbb{Q}}
+\newcommand{\Rb}{\mathbb{R}}
+\newcommand{\Sb}{\mathbb{S}}
+\newcommand{\Tb}{\mathbb{T}}
+\newcommand{\Ub}{\mathbb{U}}
+\newcommand{\Vb}{\mathbb{V}}
+\newcommand{\Wb}{\mathbb{W}}
+\newcommand{\Xb}{\mathbb{X}}
+\newcommand{\Yb}{\mathbb{Y}}
+\newcommand{\Zb}{\mathbb{Z}}
+
+% mathbf lowercase
+\newcommand{\av}{\mathbf{a}}
+\newcommand{\bv}{\mathbf{b}}
+\newcommand{\cv}{\mathbf{c}}
+\newcommand{\dv}{\mathbf{d}}
+\newcommand{\ev}{\mathbf{e}}
+\newcommand{\fv}{\mathbf{f}}
+\newcommand{\gv}{\mathbf{g}}
+\newcommand{\hv}{\mathbf{h}}
+\newcommand{\iv}{\mathbf{i}}
+\newcommand{\jv}{\mathbf{j}}
+\newcommand{\kv}{\mathbf{k}}
+\newcommand{\lv}{\mathbf{l}}
+\newcommand{\mv}{\mathbf{m}}
+\newcommand{\nv}{\mathbf{n}}
+\newcommand{\ov}{\mathbf{o}}
+\newcommand{\pv}{\mathbf{p}}
+\newcommand{\qv}{\mathbf{q}}
+\newcommand{\rv}{\mathbf{r}}
+\newcommand{\sv}{\mathbf{s}}
+\newcommand{\tv}{\mathbf{t}}
+\newcommand{\uv}{\mathbf{u}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\wv}{\mathbf{w}}
+\newcommand{\xv}{\mathbf{x}}
+\newcommand{\yv}{\mathbf{y}}
+\newcommand{\zv}{\mathbf{z}}
+
+% mathbf uppercase
+\newcommand{\Av}{\mathbf{A}}
+\newcommand{\Bv}{\mathbf{B}}
+\newcommand{\Cv}{\mathbf{C}}
+\newcommand{\Dv}{\mathbf{D}}
+\newcommand{\Ev}{\mathbf{E}}
+\newcommand{\Fv}{\mathbf{F}}
+\newcommand{\Gv}{\mathbf{G}}
+\newcommand{\Hv}{\mathbf{H}}
+\newcommand{\Iv}{\mathbf{I}}
+\newcommand{\Jv}{\mathbf{J}}
+\newcommand{\Kv}{\mathbf{K}}
+\newcommand{\Lv}{\mathbf{L}}
+\newcommand{\Mv}{\mathbf{M}}
+\newcommand{\Nv}{\mathbf{N}}
+\newcommand{\Ov}{\mathbf{O}}
+\newcommand{\Pv}{\mathbf{P}}
+\newcommand{\Qv}{\mathbf{Q}}
+\newcommand{\Rv}{\mathbf{R}}
+\newcommand{\Sv}{\mathbf{S}}
+\newcommand{\Tv}{\mathbf{T}}
+\newcommand{\Uv}{\mathbf{U}}
+\newcommand{\Vv}{\mathbf{V}}
+\newcommand{\Wv}{\mathbf{W}}
+\newcommand{\Xv}{\mathbf{X}}
+\newcommand{\Yv}{\mathbf{Y}}
+\newcommand{\Zv}{\mathbf{Z}}
+
+% bold greek lowercase
+\newcommand{\alphav     }{\boldsymbol \alpha     }
+\newcommand{\betav      }{\boldsymbol \beta      }
+\newcommand{\gammav     }{\boldsymbol \gamma     }
+\newcommand{\deltav     }{\boldsymbol \delta     }
+\newcommand{\epsilonv   }{\boldsymbol \epsilon   }
+\newcommand{\varepsilonv}{\boldsymbol \varepsilon}
+\newcommand{\zetav      }{\boldsymbol \zeta      }
+\newcommand{\etav       }{\boldsymbol \eta       }
+\newcommand{\thetav     }{\boldsymbol \theta     }
+\newcommand{\varthetav  }{\boldsymbol \vartheta  }
+\newcommand{\iotav      }{\boldsymbol \iota      }
+\newcommand{\kappav     }{\boldsymbol \kappa     }
+\newcommand{\varkappav  }{\boldsymbol \varkappa  }
+\newcommand{\lambdav    }{\boldsymbol \lambda    }
+\newcommand{\muv        }{\boldsymbol \mu        }
+\newcommand{\nuv        }{\boldsymbol \nu        }
+\newcommand{\xiv        }{\boldsymbol \xi        }
+\newcommand{\omicronv   }{\boldsymbol \omicron   }
+\newcommand{\piv        }{\boldsymbol \pi        }
+\newcommand{\varpiv     }{\boldsymbol \varpi     }
+\newcommand{\rhov       }{\boldsymbol \rho       }
+\newcommand{\varrhov    }{\boldsymbol \varrho    }
+\newcommand{\sigmav     }{\boldsymbol \sigma     }
+\newcommand{\varsigmav  }{\boldsymbol \varsigma  }
+\newcommand{\tauv       }{\boldsymbol \tau       }
+\newcommand{\upsilonv   }{\boldsymbol \upsilon   }
+\newcommand{\phiv       }{\boldsymbol \phi       }
+\newcommand{\varphiv    }{\boldsymbol \varphi    }
+\newcommand{\chiv       }{\boldsymbol \chi       }
+\newcommand{\psiv       }{\boldsymbol \psi       }
+\newcommand{\omegav     }{\boldsymbol \omega     }
+
+% bold greek uppercase
+\newcommand{\Gammav     }{\boldsymbol \Gamma     }
+\newcommand{\Deltav     }{\boldsymbol \Delta     }
+\newcommand{\Thetav     }{\boldsymbol \Theta     }
+\newcommand{\Lambdav    }{\boldsymbol \Lambda    }
+\newcommand{\Xiv        }{\boldsymbol \Xi        }
+\newcommand{\Piv        }{\boldsymbol \Pi        }
+\newcommand{\Sigmav     }{\boldsymbol \Sigma     }
+\newcommand{\Upsilonv   }{\boldsymbol \Upsilon   }
+\newcommand{\Phiv       }{\boldsymbol \Phi       }
+\newcommand{\Psiv       }{\boldsymbol \Psi       }
+\newcommand{\Omegav     }{\boldsymbol \Omega     }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code highlighting with listings         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+\definecolor{light-gray}{gray}{0.95}
+
+\newcommand{\MYhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstdefinelanguage{Shell}{
+  keywords={tar, cd, make},
+  %keywordstyle=\color{bluekeywords}\bfseries,
+  alsoletter={+},
+  ndkeywords={python, py, javac, java, gcc, c, g++, cpp, .txt, octave, m, .tar},
+  %ndkeywordstyle=\color{bluekeywords}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  %stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+  backgroundcolor = \color{light-gray}
+}
+
+\lstset{columns=fixed, basicstyle=\ttfamily,
+    backgroundcolor=\color{light-gray},xleftmargin=0.5cm,frame=tlbr,framesep=4pt,framerule=0pt}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Custom box for highlights               %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Define box and box title style
+\tikzstyle{mybox} = [fill=blue!10, very thick,
+    rectangle, rounded corners, inner sep=1em, inner ysep=1em]
+
+% \newcommand{\notebox}[1]{
+% \begin{tikzpicture}
+% \node [mybox] (box){%
+%     \begin{minipage}{\textwidth}
+%     #1
+%     \end{minipage}
+% };
+% \end{tikzpicture}%
+% }
+
+\NewEnviron{notebox}{
+\begin{tikzpicture}
+\node [mybox] (box){
+    \begin{minipage}{\textwidth}
+        \BODY
+    \end{minipage}
+};
+\end{tikzpicture}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands showing / hiding solutions     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% To HIDE SOLUTIONS (to post at the website for students), set this value to 0: 
+\def\issoln{1}
+% Some commands to allow solutions to be embedded in the assignment file.
+\ifcsname issoln\endcsname \else \def\issoln{1} \fi
+% Default to an empty solutions environ.
+\NewEnviron{soln}{}{}
+\if\issoln 1
+% Otherwise, include solutions as below.
+\RenewEnviron{soln}{
+    \leavevmode\color{red}\ignorespaces
+    % \textbf{Solution} \BODY
+    \BODY
+}{}
+\fi
+
+%% qauthor environment:
+% Default to an empty qauthor environ.
+\NewEnviron{qauthor}{}{}
+%% To HIDE TAGS set this value to 0:
+\def\showtags{0}
+%%%%%%%%%%%%%%%%
+\ifcsname showtags\endcsname \else \def\showtags{1} \fi
+% Default to an empty tags environ.
+\NewEnviron{tags}{}{}
+\if\showtags 1
+% Otherwise, include solutions as below.
+\RenewEnviron{tags}{
+    \fbox{
+    \leavevmode\color{blue}\ignorespaces
+    \textbf{TAGS:} \texttt{\url{\BODY}}
+    }
+    \vspace{-.5em}
+}{}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands for customizing the assignment %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\courseName}{10-301/10-601 Introduction to Machine Learning (Spring 2024)}
+\newcommand{\hwName}{Homework 7: Deep Learning}
+\newcommand{\dueDate}{Monday, April 8th}
+
+
+\title{\textsc{\hwName}
+%\thanks{Compiled on \today{} at \currenttime{}}
+} % Title
+
+
+\author{\courseName\\
+\url{http://www.cs.cmu.edu/~mgormley/courses/10601/} \\
+OUT: Thusrday, March 28th \\
+DUE: \dueDate{} \\ 
+TAs: Sebastian, Bhargav, Rohan, Kevin, Varsha, Haohui, Neural the Narwhal
+}
+
+\newcommand{\homeworktype}{\string written/programming}
+
+\date{}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Useful commands for typesetting the questions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand \expect {\mathbb{E}}
+\newcommand \mle [1]{{\hat #1}^{\rm MLE}}
+\newcommand \map [1]{{\hat #1}^{\rm MAP}}
+\newcommand \argmax {\operatorname*{argmax}}
+\newcommand \argmin {\operatorname*{argmin}}
+\newcommand \code [1]{{\tt #1}}
+\newcommand \datacount [1]{\#\{#1\}}
+\newcommand \ind [1]{\mathbb{I}\{#1\}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document configuration %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Don't display a date in the title and remove the white space
+\predate{}
+\postdate{}
+\date{}
+
+% Don't display an author and remove the white space
+%\preauthor{}
+%\postauthor{}
+
+% Solo and group questions
+\newcommand{\solo}{\textbf{[SOLO]} }
+\newcommand{\group}{\textbf{[GROUP]} }
+
+% Question type commands
+\newcommand{\sall}{\textbf{Select all that apply: }}
+\newcommand{\sone}{\textbf{Select one: }}
+\newcommand{\tf}{\textbf{True or False: }}
+
+% AdaBoost commands
+\newcommand{\trainerr}[1]{\hat{\epsilon}_S \left(#1\right)}
+\newcommand{\generr}[1]{\epsilon \left(#1\right)}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\margin}{\text{margin}}
+\newcommand{\sign}{\text{sign}}
+\newcommand{\PrS}{\hat{\Pr_{(x_i, y_i) \sim S}}}
+\newcommand{\PrSinline}{\hat{\Pr}_{(x_i, y_i) \sim S}}  % inline PrS
+
+% Abhi messing around with examdoc
+\qformat{\textbf{{\Large \thequestion \; \; \thequestiontitle \ (\totalpoints \ points)}} \hfill}
+\renewcommand{\thequestion}{\arabic{question}}
+\renewcommand{\questionlabel}{\thequestion.}
+
+\renewcommand{\thepartno}{\arabic{partno}}
+\renewcommand{\partlabel}{\thepartno.}
+\renewcommand{\partshook}{\setlength{\leftmargin}{0pt}}
+
+\renewcommand{\thesubpart}{\alph{subpart}}
+\renewcommand{\subpartlabel}{(\thesubpart)}
+
+\renewcommand{\thesubsubpart}{\roman{subsubpart}}
+\renewcommand{\subsubpartlabel}{\thesubsubpart.}
+
+% copied from stack overflow, as all good things are
+\newcommand\invisiblesection[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}}
+
+% quite possibly the worst workaround i have made for this class
+\newcommand{\sectionquestion}[1]{
+\titledquestion{#1}
+\invisiblesection{#1}
+~\vspace{-1em}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% New Environment for Pseudocode          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Python style for highlighting
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+\newcommand\pythonstyle{\lstset{
+language=Python,
+basicstyle=\ttm,
+morekeywords={self},              % Add keywords here
+keywordstyle=\ttb\color{deepblue},
+emph={MyClass,__init__},          % Custom highlighting
+emphstyle=\ttb\color{deepred},    % Custom highlighting style
+stringstyle=\color{deepgreen},
+frame=tb,                         % Any extra options here
+showstringspaces=false
+}}
+
+
+% Python environment
+\lstnewenvironment{your_code_solution}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+
+%%%%%%%%%%%%%%%%%%
+% Begin Document %
+%%%%%%%%%%%%%%%%%% 
+
+\begin{document}
+
+\maketitle
+
+\begin{notebox}
+\paragraph{Summary} In this assignment you will implement an RNN and performance evaluation. You will begin by going through some conceptual questions about CNNs, RNNs, and transformers for intuition for deep learning models and then use that intuition to build your own models.
+\end{notebox}\vspace*{-3mm}
+\section*{START HERE: Instructions}
+\begin{itemize}
+\newcommand \maxsubs {10 }
+
+\item \textbf{Collaboration Policy}: Please read the collaboration policy here: \url{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}
+
+\item\textbf{Late Submission Policy:} See the late submission policy here: \url{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}
+
+\item\textbf{Submitting your work:} You will use Gradescope to submit
+  answers to all questions\ifthenelse{\equal{\homeworktype}{\string written}}{}{ and code}. Please
+  follow instructions at the end of this PDF to correctly submit all your code to Gradescope.
+
+\begin{itemize}
+    
+    \item \textbf{Written:} For written problems such as short answer, multiple choice, derivations, proofs, or plots, please use the provided template. Submissions can be handwritten onto the template, but should be labeled and clearly legible. If your writing is not legible, you will not be awarded marks. Alternatively, submissions can be written in \LaTeX{}. Each derivation/proof should be completed in the boxes provided. You are responsible for ensuring that your submission contains exactly the same number of pages and the same alignment as our PDF template. If you do not follow the template, your assignment may not be graded correctly by our AI assisted grader and there will be a \textbf{\textcolor{red}{2\% penalty}} (e.g., if the homework is out of 100 points, 2 points will be deducted from your final score).
+    %
+    % This policy is NOT in effect when we have the Background Test.
+    % \ifthenelse{\equal{\homeworktype}{\string hw1}}{ {\color{red} For this assignment only, if you answer at least 90\% of the written questions correctly, you get full marks on the written portion of this assignment. For this assignment only, \textbf{we will offer two rounds of grading}. The first round of grading will happen immediately following the due date specified above. We will then release your grades to you and if you got less than 90\% on the written questions, you will be allowed to submit once again by a second due date. The exact due date for the second round will be announced after we release the first round grades. } }{}
+
+    \ifthenelse{\equal{\homeworktype}{\string written}}{}{
+    \item \textbf{Programming:} You will submit your code for programming questions on the homework to \href{https://gradescope.com}{Gradescope}. After uploading your code, our grading scripts will autograde your assignment by running your program on a virtual machine (VM). 
+    %
+    You are only permitted to use \href{https://docs.python.org/3/library/}{the Python Standard Library modules} and \texttt{numpy}.
+    % You are only permitted to use \href{https://docs.python.org/3/library/}{the Python Standard Library modules}, \texttt{numpy} and the modules already imported in the starter notebook. You are not permitted to import any other modules.
+    %
+    % You will not have to change the default version of your programming environment and the versions of the permitted libraries on Google Colab. You have \maxsubs free Gradescope programming submissions, after which you will begin to lose points from your total programming score. We recommend debugging your implementation on Google Colab and making sure your code is running correctly first before submitting your code to Gradescope.}
+    %
+    Ensure that the version number of your programming language environment (i.e. Python 3.9.12) and versions of permitted libraries (i.e. \texttt{numpy} 1.23.0) match those used on Gradescope. You have \maxsubs free Gradescope programming submissions, after which you will begin to lose points from your total programming score. We recommend debugging your implementation on your local machine (or the Linux servers) and making sure your code is running correctly first before submitting your code to Gradescope.}
+    \ifthenelse{\equal{\homeworktype}{\string hw1}}{ {\color{red} The submission limit is true for future assignments, but this one allows \textbf{unlimited submissions.}} }{}
+   
+  \end{itemize}
+  
+\ifthenelse{\equal{\homeworktype}{\string written}}{}{\item\textbf{Materials:} The data and reference output that you will need in order to complete this assignment is posted along with the writeup and template on the course website.}
+
+\end{itemize}
+
+\clearpage
+
+\section*{Instructions for Specific Problem Types}
+
+For ``Select One" questions, please fill in the appropriate bubble completely:
+
+\begin{quote}
+\textbf{Select One:} Who taught this course?
+    \begin{checkboxes}
+     \CorrectChoice Matt Gormley
+     \choice Marie Curie
+     \choice Noam Chomsky
+    \end{checkboxes}
+\end{quote}
+
+If you need to change your answer, you may cross out the previous answer and bubble in the new answer:
+
+\begin{quote}
+\textbf{Select One:} Who taught this course?
+    {
+    \begin{checkboxes}
+     \CorrectChoice Henry Chai
+     \choice Marie Curie \checkboxchar{\xcancel{\blackcircle}{}}
+     \choice Noam Chomsky
+    \end{checkboxes}
+    }
+\end{quote}
+
+For ``Select all that apply" questions, please fill in all appropriate squares completely:
+
+\begin{quote}
+\textbf{Select all that apply:} Which are instructors for this course?
+    {%
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$} % change checkbox style locally
+    \begin{checkboxes}
+    \CorrectChoice Matt Gormley  
+    \CorrectChoice Henry Chai
+    \CorrectChoice Hoda Heidari
+    \choice I don't know
+    \end{checkboxes}
+    }
+\end{quote}
+
+Again, if you need to change your answer, you may cross out the previous answer(s) and bubble in the new answer(s):
+
+\begin{quote}
+\textbf{Select all that apply:} Which are the instructors for this course?
+    {%
+    \checkboxchar{\xcancel{$\blacksquare$}} \checkedchar{$\blacksquare$} % change checkbox style locally
+    \begin{checkboxes}
+    \CorrectChoice Matt Gormley 
+    \CorrectChoice Henry Chai
+    \CorrectChoice Hoda Heidari
+    \choice I don't know
+    \end{checkboxes}
+    }
+\end{quote}
+
+For questions where you must fill in a blank, please make sure your final answer is fully included in the given space. You may cross out answers or parts of answers, but the final answer must still be within the given space.
+
+\begin{quote}
+\textbf{Fill in the blank:} What is the course number?
+
+\begin{tcolorbox}[fit,height=1cm, width=4cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+    \begin{center}\huge10-601\end{center}
+    \end{tcolorbox}\hspace{2cm}
+    \begin{tcolorbox}[fit,height=1cm, width=4cm, blank, borderline={1pt}{-2pt},nobeforeafter]
+    \begin{center}\huge10-\xcancel{6}301\end{center}
+    \end{tcolorbox}
+\end{quote}
+
+\clearpage
+{\LARGE \bf Written Questions (\numpoints \ points)} 
+\begin{questions}
+\sectionquestion{\LaTeX{} Bonus Point and Template Alignment}
+\begin{parts}
+    \part[1] \sone Did you use \LaTeX{} for the entire written portion of this homework?
+    
+    \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice Yes 
+        \choice No
+    \end{checkboxes}
+
+    \part[0] \sone I have ensured that my final submission is aligned with the original template given to me in the handout file and that I haven't deleted or resized any items or made any other modifications which will result in a misaligned template. I understand that incorrectly responding yes to this question will result in a penalty equivalent to 2\% of the points on this assignment.\\
+    \textbf{Note:} Failing to answer this question will not exempt you from the 2\% misalignment penalty.
+    
+    \begin{checkboxes}
+        % YOUR ANSWER
+        % Change \choice to \CorrectChoice for the appropriate selection/selections 
+        \choice Yes 
+    \end{checkboxes}
+\end{parts}\sectionquestion{Convolutional Neural Network}
+\label{sec:cnn}
+\begin{parts}
+
+\part In this problem, consider a convolutional layer from a standard implementation of a CNN as described in lecture, without any bias term. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figs/CNN.PNG}
+\end{figure}
+    \begin{subparts}
+    \subpart[1] Let an image $X$ $(6\times6)$ be convolved with a filter $F$ $(3\times3)$ using no padding and a stride of $1$ to produce an output $Y$  $(4\times4$). What is value of $j$ in the output $Y$?\\
+    \begin{your_solution}[height=2cm,width=4cm]
+    % YOUR ANSWER 
+    \end{your_solution}
+    
+    \vspace{4mm}
+    
+    \subpart[1] Suppose you instead had an input feature map (or image) of size $6 \times 4$ (height $\times$ width) and a filter of size $2 \times 2$, using no padding and a stride of $2$, what would be the resulting output size? Write your answer in the format: height $\times$ width.\\
+    \begin{your_solution}[height=2cm,width=4cm]
+    % YOUR ANSWER 
+    \end{your_solution} 
+    \end{subparts}
+
+
+% \break
+
+\part Parameter sharing is a very important concept for CNN  because it drastically reduces the complexity of the learning problem and consequently that of the model required to tackle it. The following questions will deal with parameter sharing. Assume that there is no bias term in our convolutional layer.
+
+\begin{subparts}
+    \subpart[1] \sall Which of the following are parameters of a convolutional layer?
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+    \begin{checkboxes}
+        % YOUR ANSWER 
+        % Change \choice to \CorrectChoice for the appropriate selection
+        \choice Stride size
+        \choice Padding size
+        \choice Input size
+        \choice Filter size
+        \choice Weights in the filter
+        \choice None of the above
+    \end{checkboxes}
+    
+    \vspace{4mm}
+    
+    \subpart[1] \sall Which of the following are hyperparameters of a convolutional layer?
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+    \begin{checkboxes}
+        % YOUR ANSWER 
+        % Change \choice to \CorrectChoice for the appropriate selection
+        \choice Stride size
+        \choice Padding size
+        \choice Input size
+        \choice Filter size
+        \choice Weights in the filter
+        \choice None of the above
+    \end{checkboxes}
+    
+    \vspace{4mm}
+
+    \subpart[1] Suppose for the convolutional layer, we are given grayscale images of size $22\times 22$. Using one single $4 \times 4$ filter with a stride of $2$, no padding and a single output channel, what is the \textbf{number of parameters} you are learning in this layer? \\
+    \begin{your_solution}[height=2cm,width=4cm]
+        % YOUR ANSWER 
+    \end{your_solution}\\
+    
+    \vspace{4mm}
+    
+    \subpart[1] Now suppose we do not do parameter sharing. That is, each output pixel of this layer is computed by a separate $4 \times 4$ filter. Again we use a stride of $2$, no padding and a single output channel. What is the \textbf{number of parameters} you are learning in this layer? \\
+    \begin{your_solution}[height=2cm,width=4cm]
+        % YOUR ANSWER 
+    \end{your_solution}
+
+    \newpage
+    
+    \subpart[1] Now suppose you are given a $40 \times 40$ colored image, which consists of $3$ channels, each representing the intensity of one primary color (so your input is a $40 \times 40 \times 3$ tensor). Once again, you attempt to produce an output map without parameter sharing, using a unique $4 \times 4$ filter per output pixel, with a stride of $2$, no padding and a single output channel (so the number of channels in the filter are the same as the number of channels in the input image). What is the number of parameters you are learning in this layer? \\
+    \begin{your_solution}[height=2cm,width=4cm]
+        % YOUR ANSWER 
+    \end{your_solution}\\
+
+    \vspace{4mm}
+
+    \subpart[1] In \textit{one concise sentence}, describe a reason why parameter sharing is a good idea for a convolutional layer applied to image data, besides the reduction in number of learned parameters.  \\
+    \begin{your_solution}[height=5cm]
+        % YOUR ANSWER 
+    \end{your_solution}\\
+\end{subparts}
+
+\vspace{4mm}
+
+\part Neural the Narwhal was expecting to implement a CNN for Homework 5, but he is disappointed that he only got to write a simple fully-connected neural network. 
+\begin{subparts}
+
+\subpart[2] Neural decides to implement a CNN himself and comes up with the following naive implementation:
+\begin{lstlisting}[language=Python,escapechar=@]
+# image X has shape (H_in, W_in), and filter F has shape (K, K)
+# the output Y has shape (H_out, W_out)
+Y = np.zeros((H_out, W_out))
+for r in range(H_out):
+    for c in range(W_out):
+        for i in range(K):
+            for j in range(K):
+                Y[r, c] += X[@\underline{$~~~\emph{\texttt{blank}}~~~$}@] * F[i, j]
+\end{lstlisting}
+What should be in the \textit{blank} above so that the output \texttt{Y} is correct? Assume that \texttt{H\_out} and \texttt{W\_out} are pre-computed correctly, the filter has a stride of 1 and there's no padding. \\
+    \begin{your_solution}[height=1.75cm]
+    % YOUR ANSWER 
+    % Put your solution in the your_code_solution environment
+    \begin{your_code_solution}
+
+
+    \end{your_code_solution}
+    
+    \end{your_solution}
+
+\newpage
+
+\subpart[2] Neural now wants to implement the backpropagation part of the network but is stuck. He decides to go to office hours to ask for help. One TA tells him that a CNN can actually be implemented using matrix multiplication. He receives the following 1D convolution example:
+\begin{quote}
+    Suppose you have an input vector $\xv = [x_1, x_2, x_3, x_4, x_5]^T$ and a 1D convolution filter $\wv = [w_1, w_2, w_3]^T$. Then if the output is $\yv = [y_1, y_2, y_3]^T$, $y_1 = w_1 x_1 + w_2 x_2 + w_3 x_3$, $y_2 = \cdots$, $y_3 = \cdots$. If you look at this closely, this is equivalent to
+    \[
+    \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix} = \Av \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ x_5 \end{bmatrix}
+    \]
+    where the matrix $\Av$ is given as $\cdots$
+\end{quote}
+What is matrix $\Av$ for this $\xv$, $\yv$ and $\wv$? Write only the final answer. Your work will \textit{not} be graded. \\
+    \begin{your_solution}[height=5cm]
+        % YOUR ANSWER 
+        % Use `bmatrix` to typeset a matrix.
+        % Example:
+        % \[
+        % \begin{bmatrix}
+        % 1 & 2 & 3 \\
+        % 4 & 5 & 6
+        % \end{bmatrix}
+        % \]
+        % is a 2 x 3 matrix where the first row has elements 1, 2, 3 and the first column has elements 1, 4.
+        % Make sure you put the bmatrix in something like \[ ... \] or in $ ... $
+    
+    
+    \end{your_solution}
+
+\vspace{5mm}
+
+\subpart[2] Neural wonders why the TA told him about matrix multiplication when he wanted to write the backpropagation part. Then he notices that the gradient is extremely simple with this version of CNN. Explain in \textit{one concise sentence (or one short mathematical expression)} how you can compute $\frac{\partial \yv}{\partial \xv}$ once you obtain $\Av$ for some \textit{arbitrary} input $\xv$, filter $\wv$, and the corresponding 1D convolution output $\yv$ (so $\Av$ is obtained following the same procedure as in part (b), but $\xv$, $\yv$ and $\wv$ can be different from the example). Write only the final answer. Your work will \textit{not} be graded. \\
+    \begin{your_solution}[height=2cm]
+        % YOUR ANSWER 
+    
+    
+    \end{your_solution}
+
+
+\end{subparts}
+
+\end{parts}
+
+\newpage\newpage
+
+\sectionquestion{Recurrent Neural Network}
+\label{sec:rnn}
+\begin{parts}
+
+\part Consider the following simple RNN architecture:
+\begin{center}
+
+\begin{tikzcd}[cells={nodes={draw=gray}}]
+	& {\hat{\yv}_1} & {\hat{\yv}_2} & {\hat{\yv}_3} \\
+	{\hv_0} & {\hv_1} & {\hv_2} & {\hv_3} \\
+	& {\xv_1} & {\xv_2} & {\xv_3}
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+	\arrow[from=2-3, to=2-4]
+	\arrow[from=3-4, to=2-4]
+	\arrow[from=3-3, to=2-3]
+	\arrow[from=3-2, to=2-2]
+	\arrow[from=2-2, to=1-2]
+	\arrow[from=2-3, to=1-3]
+	\arrow[from=2-4, to=1-4]
+\end{tikzcd}
+\end{center}
+where we have inputs $\xv_t$, hidden states $\hv_t$, and outputs $\hat{\yv}_t$ for each timestep $t$. The dimensions of these and the weights of the model are given below. On the right, we show the computation, performed by the RNN to obtain the outputs $\hat{\yv}_t$ and subsequently the loss $J$ for a single input $\xv_{1:3}$. 
+
+\begin{minipage}{0.5\linewidth}
+\begin{align*}
+    \xv_t &\in \mathbb{R}^3 &\Wv_{hx} &\in \mathbb{R}^{4 \times 3}\\
+    \hv_t &\in \mathbb{R}^4 &\Wv_{hy} &\in \mathbb{R}^{2 \times 4}\\
+    \yv_t, \hat{\yv}_t &\in \mathbb{R}^2 &\Wv_{hh} &\in \mathbb{R}^{4 \times 4}\\
+\end{align*}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}    
+\begin{align*}
+    \zv_t &= \Wv_{hh} \hv_{t-1} + \Wv_{hx}\xv_t\\
+    \hv_t &= \psi(\zv_t)\\
+    \ov_t &= \Wv_{hy}\hv_t\\
+    \hat{\yv}_t &= soft(\ov_t)\\
+    J_t &= -\sum_{i=1}^2 y_{t,i} \log(\hat{y}_{t,i})\\
+    J &= \sum_{t=1}^3 J_t\\
+\end{align*}
+\end{minipage}
+
+Above $\yv_t$ is a one-hot vector representing the label for the $t$th timestep, $soft$ is the \textbf{softmax} activation, $\psi$ is the \textbf{identity} activation (i.e. no activation), $J$ is the cross entropy loss computed by the function $CE()$. Note here that we assume that we have no intercept term. 
+
+\begin{subparts}
+
+\clearpage
+    \subpart[4] You will now construct the unrolled computational graph for the given model.
+    Use input sequence $\xv$, label $\yv$, and the RNN equations presented above to complete the graph by filling in the solution boxes for the corresponding blanks.\\
+
+    \begin{center}
+    \[\begin{tikzcd}[cells={nodes={draw=gray}}]
+	&& {J = \sum_{t=1}^3 J_t} \\
+	&& {\Wv_{hy}} \\
+	&& {\yv_2} & {\yv_3} \\
+	{\yv_1} & {J_1 = CE(\hat{\yv}_{1}, \yv_1)} & {\textbf{part (c)}} & {J_3 = CE(\hat{\yv}_{3}, \yv_3)} \\
+	& {\hat{\yv}_1 = soft(\ov_1)} & {\hat{\yv}_2 = soft(\ov_2)} & {\hat{\yv}_3 = soft(\ov_3)} \\
+	& {\textbf{part (a)}} & {\ov_2 = Lin(\Wv_{hy}, \hv_2)} & {\ov_3 = Lin(\Wv_{hy}, \hv_3)} \\
+	& {\hv_1 = \psi(\zv_1)} & {\textbf{part (b)}} & {\hv_3 = \psi(\zv_3)} \\
+	{\hv_0} & {\zv_1 = Lin(\Wv_{hh}, \Wv_{hx},\hv_0,\xv_1)} & {\zv_2 = Lin(\Wv_{hh}, \Wv_{hx},\hv_1,\xv_2)} & {\textbf{part (d)}} \\
+	& {\xv_1} & {\xv_2} & {\xv_3} \\
+	& {\Wv_{hx}} & {\Wv_{hh}}
+	\arrow[from=8-1, to=8-2]
+	\arrow[from=9-2, to=8-2]
+	\arrow[from=8-2, to=7-2]
+	\arrow[from=7-2, to=8-3]
+	\arrow[from=7-2, to=6-2]
+	\arrow[from=6-2, to=5-2]
+	\arrow[from=5-2, to=4-2]
+	\arrow[from=4-1, to=4-2]
+	\arrow[from=9-3, to=8-3]
+	\arrow[from=8-3, to=7-3]
+	\arrow[from=7-3, to=6-3]
+	\arrow[from=6-3, to=5-3]
+	\arrow[from=5-3, to=4-3]
+	\arrow[from=3-3, to=4-3]
+	\arrow[from=3-4, to=4-4]
+	\arrow[from=5-4, to=4-4]
+	\arrow[from=6-4, to=5-4]
+	\arrow[from=7-4, to=6-4]
+	\arrow[from=8-4, to=7-4]
+	\arrow[from=7-3, to=8-4]
+	\arrow[from=9-4, to=8-4]
+	\arrow[shift left=4, from=10-2, to=8-2]
+	\arrow[from=10-2, to=8-3]
+	\arrow[from=10-3, to=8-2]
+	\arrow[shift right=4, from=10-3, to=8-3]
+	\arrow[from=10-3, to=8-4]
+	\arrow[shift right=2, from=2-3, to=6-4]
+	\arrow[from=2-3, to=6-2]
+	\arrow[shift right=5, from=2-3, to=6-3]
+	\arrow[from=4-2, to=1-3]
+	\arrow[shift right=4, from=4-3, to=1-3]
+	\arrow[shift right, from=4-4, to=1-3]
+	\arrow[shift right=3, from=10-2, to=8-4]
+\end{tikzcd}\]
+\end{center}
+    \begin{your_solution}[title=(a),height=2cm,width=6cm]
+    % YOUR ANSWER
+    \end{your_solution}
+     \begin{your_solution}[title=(b),height=2cm,width=6cm]
+    % YOUR ANSWER
+    \end{your_solution}\\
+     \begin{your_solution}[title=(c),height=2cm,width=6cm]
+    % YOUR ANSWER
+    \end{your_solution}
+     \begin{your_solution}[title=(d),height=2cm,width=6cm]
+    % YOUR ANSWER
+    \end{your_solution}
+
+\subpart Now you will derive the steps of the backpropagation algorithm that lead to the computation of $\frac{dJ}{d\Wv_{hh}}$. For all parts of this question, please write your answer in terms of $\Wv_{hh}$, $\Wv_{hy}$, $\yv$, $\hat{\yv}$, $\hv$, and any additional terms specified in the question (note: this does not mean that every term listed shows up in every answer, but rather that you should simplify terms into these as much as possible when you can).
+\clearpage
+    \begin{subsubparts}
+        \subsubpart[2] What is $g_{J_t} = \frac{\partial J}{\partial J_t}$? Write your solution in the first box, and show your work in the second.
+        
+    \begin{your_solution}[title=$\frac{\partial J}{\partial J_t}$,height=2.5cm,width=8.5cm]
+    % YOUR ANSWER
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=6cm,width=14cm]
+    % YOUR ANSWER
+    \end{your_solution}
+
+     \subsubpart[2] What is $g_{\ov_t} = \frac{\partial J}{\partial \ov_t}$ for an arbitrary $t \in [1,3]$? Write your solution in the first box, and show your work in the second. Write your answer in terms of $\hat{\yv}_t$, $\yv_t$, and $g_{J_t}$. (Hint: Think about how you can write $J_t$ in terms of $\ov_t$, then use the chain rule. You may want to use a result from homework 5 to help here.)
+        
+    \begin{your_solution}[title=$\frac{\partial J}{\partial \ov_t}$,height=2.5cm,width=8.5cm]
+    % YOUR ANSWER
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=6cm,width=14cm]
+    % YOUR ANSWER
+    \end{your_solution}
+
+\clearpage
+    \subsubpart[2] What is $g_{\hv_i} = \frac{\partial J}{\partial \hv_i}$ for an arbitrary $i \in [1,3]$? Write your solution in terms of $\gv_{\ov_t}$, $\Wv_{hh}$, $\Wv_{hy}$ in the first box, and show your work in the second. (Hint: Find $\frac{\partial \ov_t}{\partial \hv_i}$, then use the chain rule. Also, for a given i, think about which $\ov_t$'s  $\hv_i$ affects)
+        
+    \begin{your_solution}[title=$\frac{\partial J}{\partial \hv_i}$,height=2.5cm,width=8.5cm]
+    % YOUR ANSWER
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=6cm,width=14cm]
+    % YOUR ANSWER
+    \end{your_solution}
+    
+    \subsubpart[3] What is $g_{\Wv_{hh}} = \frac{\partial J}{\partial \Wv_{hh}}$? Write your solution in terms of $\gv_{\hv_i}$ and $\hv$ in the first box, and show your work in the second. (Hint: $\Wv_{hh}$ is in every timestep, so you need to consider that in the derivative.)
+    
+    
+    \begin{your_solution}[title=$\frac{\partial J}{\partial \Wv_{hh}}$,height=2.5cm,width=10.5cm]
+    % YOUR ANSWER
+    \end{your_solution}
+    
+    \begin{your_solution}[title=Work,height=6.5cm,width=14cm]
+    % YOUR ANSWER
+    \end{your_solution}\\
+    
+
+
+
+    
+    \end{subsubparts}
+    
+\end{subparts}
+
+
+\newpage
+\part[2] \sall Which of the following are true about RNN and RNN-LM?
+    
+    {%
+    \checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+    \begin{checkboxes}
+        
+        \choice An RNN cannot process sequential data, whereas an RNN-LM is designed for sequential data processing such as in natural language processing.
+
+        \choice An RNN-LM is only exclusively used as an encoder, which can process sequential data and encode it into a fixed-size state vector.
+
+        \choice An RNN-LM includes additional layers and structures specifically designed to predict the next token in a sequence, making it more suited for tasks like text generation than a standard RNN.
+
+        \choice The RNN-LM is trained to maximize the probability of a sequence of tokens, given a previous sequence, which is not a typical training objective of a standard RNN.
+        
+        \choice None of the above.
+    \end{checkboxes}
+    }
+    
+
+\end{parts}
+
+\newpage
+
+\newpage
+\sectionquestion{Transformers and AutoDiff}
+\label{sec:transformers}
+
+\begin{parts}
+
+\part[1] 
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{figs/autodiff.png}
+\end{figure}
+
+\textbf{Select one:} This is a code snippet from lecture 18 slide 16. In the context of the \texttt{method apply\_fwd()} inside the \texttt{Module} class, what is the primary role of the \texttt{tape.push(self)} command that pushes the module onto the tape?
+
+    \begin{list}{}
+    % YOUR ANSWER
+    % Change \emptycircle to \filledcircle for the appropriate selection/selections
+        \item 
+            \emptycircle
+            % \filledcircle
+            It records the current module onto the stack along with its parameters and tensors to ensure that the output tensor is saved for the backward pass.
+        \item 
+            \emptycircle 
+            % \filledcircle
+            It pushes the current computation's gradient onto the stack for immediate use in the forward pass.
+
+        \item 
+            \emptycircle
+            % \filledcircle
+            It duplicates the module to allow for parallel computations in subsequent layers of the neural network.
+ 
+        \item 
+            \emptycircle
+            % \filledcircle
+            It activates the module for the forward pass, making it the only active computation in the network.
+    \end{list}
+    
+
+\clearpage
+\part[2]  
+\textbf{True or False:} We can replace a stack with a queue in Module-based AutoDiff. Explain your reasoning in no more than 2 sentences in the box below.
+    \begin{list}{}
+    % YOUR ANSWER
+    % Change \emptycircle to \filledcircle for the appropriate selection/selections
+        \item 
+            \emptycircle
+            % \filledcircle
+            True 
+        \item 
+            \emptycircle 
+            % \filledcircle
+            False 
+    \end{list}
+
+\begin{your_solution}[height=3cm, width=\textwidth]
+\end{your_solution}
+
+% (Just kidding. We would never replace Neural the Narwhal!)
+
+\part 
+Consider a Transformer model employing a multi-headed self-attention mechanism. Suppose the input consists of a sequence of $T$ tokens, each token represented by a $d_{\text{model}}$-dimensional embedding vector. This model utilizes $H$ attention heads. During the attention process, each head generates keys, queries, and values from the input embeddings. The dimensionality of the key and query vectors is $d_k$ for each head, and the attention function produces an output vector of dimension $d_v$ for each token and head.
+
+\begin{subparts}
+\subpart[1] Which of the following represents the dimension of the key tensor for a single attention head?
+
+    \begin{list}{}
+    % YOUR ANSWER
+    % Change \emptycircle to \filledcircle for the appropriate selection/selections
+        \item 
+            \emptycircle
+            % \filledcircle
+            $T \times d_v$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $H \times d_k \times d_{\text{model}}$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $T \times d_k$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $T \times d_{\text{model}} \times d_k$
+    \end{list}
+
+
+\subpart[1]  Which of the following represents the dimension of the output tensor of the multi-headed attention before any final linear transformation?
+
+    \begin{list}{}
+    % YOUR ANSWER
+    % Change \emptycircle to \filledcircle for the appropriate selection/selections
+        \item 
+            \emptycircle
+            % \filledcircle
+            $T \times H \times d_k$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $T \times H \times d_v$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $T \times d_{\text{model}}$
+        \item 
+            \emptycircle 
+            % \filledcircle
+            $H \times d_k \times d_v$
+    \end{list}
+
+
+\end{subparts}
+\end{parts}
+\newpage
+\sectionquestion{Empirical Questions}
+\label{sec:empirical}
+
+The following questions should be completed as you work through the programming component of this assignment. \textbf{Please ensure that all plots are computer-generated}. For all the questions below, unless otherwise specified, set \texttt{embedding\_dim} and \texttt{hidden\_dim} to be $128$. Run on the \texttt{en.\{train/val\}\_40.twocol.oov} files in the handout.
+
+\begin{parts}
+
+
+\part[4]
+Create a single plot for this question after running for 15 epochs. The $y$-axis should show the F1 score (as a decimal) and the $x$-axis should show the number of epochs. The graph should have 4 total lines showing the train and validation F1 scores of two settings: using \texttt{ReLU} activation and using \texttt{Tanh} activation. 
+
+\begin{your_solution}[height=7cm]
+    % YOUR ANSWER 
+    \begin{center}
+    % Here is an example of how to include an image:
+    % \includegraphics[scale=0.5]{IMAGE FILE PATH HERE}
+    \end{center}
+\end{your_solution}
+
+\part[4]
+Create a single plot for this question after running for 5 epochs. The $y$-axis should show the F1 score (as a decimal) and the $x$-axis should show the number of epochs. The graph should have 6 total lines showing the train and validation F1 scores of three settings: equal embedding and hidden dimensions of 64, 128 and 512.
+
+\begin{your_solution}[height=7cm]
+    % YOUR ANSWER 
+    \begin{center}
+    % Here is an example of how to include an image:
+    % \includegraphics[scale=0.5]{IMAGE FILE PATH HERE}
+    \end{center}
+\end{your_solution}
+
+\clearpage
+
+\part[5]
+In a maximum of 5 sentences, explain the results of the above experiments. In particular, do the training and validation F1 curves look the same, or different? How do the hyperparameters affect performance? \\
+\begin{your_solution}[height=5cm]
+    % YOUR ANSWER 
+\end{your_solution}
+
+\end{parts}\newpage
+\end{questions}
+\newpage
+\section{Collaboration Questions}
+After you have completed all other components of this assignment, report your answers to these questions regarding the collaboration policy. Details of the policy can be found \href{http://www.cs.cmu.edu/~mgormley/courses/10601/syllabus.html}{here}.
+\begin{enumerate}
+    \item Did you receive any help whatsoever from anyone in solving this assignment? If so, include full details.
+    \item Did you give any help whatsoever to anyone in solving this assignment? If so, include full details.
+    \item Did you find or come across code that implements any part of this assignment? If so, include full details.
+\end{enumerate}
+
+\begin{your_solution}[height=6cm]
+% YOUR ANSWER 
+
+\end{your_solution}
+
+\newpage
+\section{Programming (55 points)}
+\label{programming}
+
+In this section, you will implement a Recurrent Neural Network using only PyTorch primitives. You will write a custom DataLoader to read in the text data. You will even implement a custom activation layer functions without using built-in PyTorch functions like \texttt{nn}.
+
+\subsection{The Task}\label{task}
+Named entity recognition (NER) is the task of classifying named entities, typically proper nouns, into pre-defined categories, such as person, location, or organization. Consider the example sequence below, where each word is appended with a tab and then its tag:
+
+\texttt{
+\begin{tabular}{ m{3cm}  m{3cm} } 
+    `` & O \\
+    Rhinestone & B-ORG \\
+    Cowboy & I-ORG \\
+    '' & O \\
+    ( & O \\
+    Larry & B-PER \\
+    Weiss & I-PER \\
+    ) & O \\ 
+    - & O \\
+    3:15 & O
+\end{tabular}
+}
+
+\texttt{Rhinestone} and \texttt{Cowboy} are labeled as an organization (\texttt{ORG}), while \texttt{Larry} and \texttt{Weiss} is labeled as a person (\texttt{PER}). Words that are not named entities are assigned the \texttt{O} tag. The \texttt{B-} prefix indicates that a word is the beginning of an entity, while the \texttt{I-} prefix indicates that the word is inside the entity.
+
+\subsection{The Dataset}\label{dataset}
+\href{https://paperswithcode.com/dataset/conll-2003}{CoNLL 2003} is a dataset comprised of various Reuters news stories between 1996 and 1997. It is designed for English and German Named Entity Recognition (NER) and Token Classification tasks. The CoNLL dataset provides labelled entity data in English with approximately 15K training examples, 3.5K validation examples, and 3.6K test examples. The German dataset contains 12.7K training examples, 3K validation samples, and 3.2K test examples. In this assignment we will strictly be using the English dataset.
+
+\subsection{File Formats}\label{formats}
+The contents and formatting of each of the files in the handout folder is explained below. 
+\begin{enumerate}
+
+\item \textbf{en.train.twocol.oov} This file contains labeled text data that you will use in training your model. Specifically, the text contains one word per line that has already been preprocessed, cleaned and tokenized. Words that are Out of Vocabulary (OOV) in the original dataset are replaced with the special token *OOV*. Every sequence has the following format:
+
+    \texttt{<Word0>\textbackslash t<Tag0>\textbackslash n<Word1>\textbackslash t<Tag1>\textbackslash n ... <WordN>\textbackslash t<TagN>\textbackslash n}
+
+where every \texttt{<WordK>\textbackslash t<TagK>} unit token is separated by a newline. Between each sequence is an empty line. If we have two, three-word sequences in our data set, the data will look like so:
+
+    \texttt{<Word0>\textbackslash t<Tag0>\textbackslash n\\<Word1>\textbackslash t<Tag1>\textbackslash n\\<Word2>\textbackslash t<Tag2>\textbackslash n\\\textbackslash n\\}
+    \texttt{<Word0>\textbackslash t<Tag0>\textbackslash n\\<Word1>\textbackslash t<Tag1>\textbackslash n\\<Word2>\textbackslash t<Tag2>\textbackslash n\\
+    \textbackslash n}
+    
+\textit{Note:} Word 2 of the second sequence does end with two newlines because it is the end of the data set.
+
+\item \textbf{en.val.twocol.oov}: This file contains labeled validation data that you will use to evaluate your model. This file has the same format as \textbf{train.txt}.
+\end{enumerate}
+
+\subsection{Required Reading: PyTorch Tutorial}
+
+Before proceeding any further, you must complete the PyTorch Tutorial. Please read the full collection of the Introduction to PyTorch, i.e. Learn the Basics $\|$ Quickstart $\|$ Tensors $\|$ Datasets \& DataLoaders $\|$ Transforms $\|$ Build Model $\|$ Autograd $\|$ Optimization $\|$ Save \& Load Model.    
+
+    \url{https://pytorch.org/tutorials/beginner/basics/intro.html}
+    
+\subsection{Custom Dataset and DataLoader}\label{dataloader}
+One essential step when using PyTorch for any problem is to create a custom Dataset class for your model's DataLoader. A DataLoader is a class that PyTorch uses to supply your model with the data it needs for training. Typically, your model doesn't update parameters using the entire dataset at once, it uses batches of the data (though for this model we will be using a batch size of 1). The DataLoader is responsible for creating these batches under the hood, for the training functions you write later on to use. Each DataLoader relies on a custom Dataset class you must write.
+
+Writing a custom Dataset class is one of the most essential steps you must perform when working on a deep learning problem. This class is what PyTorch uses to load your dataset into memory, in a format that will work well for your neural network. Neural networks require each data point to have numerical features, so if your data is categorical, or you are working with text data, you must convert these into numbers in your Dataset class. Each dataset is unique in terms of the types of preprocessing that are required, which is why you must typically write your own custom Dataset class for your problem. For more information on Datasets and DataLoaders, and to see an example of these two in action, please see the following \href{https://pytorch.org/tutorials/beginner/basics/data_tutorial.html}{link}.
+
+You always want to make sure the training and test data are separate. To do this, it is sometimes common to see a custom TestDataset class as well. In our case, this will not be necessary, and we will simply be creating a separate Dataset object for the training and test data. Using separate objects ensures that the DataLoader doesn't using testing data to train the model, and vice versa.
+
+In PyTorch, all custom Dataset classes inherit from the \texttt{torch.utils.data.Dataset} parent class and you must implement the following three inherited methods. These functions are what the DataLoader will call when it is creating the batches of data that the model will train on or evaluate.
+
+\begin{enumerate}
+    \item \texttt{\_\_init\_\_(self, ...)} \\
+    This is the initialization function. This is where you pass in important information to the Dataset as arguments, like the name of the file or directory where the data you will to process is stored. For our text dataset, which is pretty small, we will use this function to load the input text file (\textbf{train.txt} or \textbf{validation.txt}) into memory by creating data structures that can be easily indexed into. This is also where we recommend converting text into numerical data. 
+    \item \texttt{\_\_len\_\_(self)} \\
+    You must return the length, or size of dataset. In other words, how many examples are there in total.
+    \item \texttt{\_\_getitem\_\_(self, index)} \\
+    This function is used to get a single item from the dataset. You pass in the index of this item/datapoint as an argument, and the expected output is two \texttt{torch.Tensors}: one for the inputs/$\mathbf{x}$ values, and one for the true outputs/$y$ values. In our case, we are dealing with sequences, so your function should return one \texttt{torch.Tensor} containing a sequences of words (as ints), and another \texttt{torch.Tensor} containing the corresponding sequence of tags (as ints). You will likely be working with lists or numpy arrays, so we recommend using the \texttt{torch.tensor()} \href{https://pytorch.org/docs/stable/generated/torch.tensor.html}{method} to perform conversions.
+\end{enumerate}
+
+\textbf{Custom TextDataset:} For our problem, we are asking you to create a custom Dataset class called a TextDataset to process the text files \textbf{en.train.twocol.oov} and \textbf{en.val.twocol.oov}. As mentioned above, the input text files consist of several sequences of (word, tag) pairs. Within each pair, the word and tag are separated by a \texttt{\textbackslash t} character. Within each sequence, the (word, tag) pairs are separated by \texttt{\textbackslash n} characters. Within the overall text file, the different sequences are separated by an additional \texttt{\textbackslash n} character. You must process these text files so that, as mentioned above, when the \texttt{getitem} function is called to retrieve item \texttt{i}, it returns the \texttt{i}th sequences of words (converted to ints) and the \texttt{i}th sequences of tags (also converted to ints).
+
+For example, if the DataLoader calls \texttt{getitem} function for the fifth item, and this is the corresponding fifth sequence in the dataset:
+
+    \texttt{<Word5>\textbackslash t<Tag0>\textbackslash n\\<Word17>\textbackslash t<Tag0>\textbackslash n\\<Word8>\textbackslash t<Tag4>\textbackslash n\\<Word2>\textbackslash t<Tag2>\textbackslash n\\<Word10>\textbackslash t<Tag1>\textbackslash n\\\textbackslash n\\}
+
+The TextDataset is expected to return the following Tensors:
+
+    \texttt{torch.Tensor([5, 17, 8, 2, 10]), torch.Tensor([0, 0, 4, 2, 1])}
+
+\textit{Note:} The left Tensor is for input data (words) and the right Tensor is for output data (tags).
+
+Here are the important steps/TODOs to complete this TextDataset:
+
+\begin{enumerate}
+    \item First, you must make sure to parse the text file to remove the white space characters like \texttt{\textbackslash t} and \texttt{\textbackslash n}. Functions like \texttt{strip()} and \texttt{split()} may be useful to you here. Using these functions correctly will make it easy to separate sequences from each other (hint: each sequence ends in the same combination of characters). This should be done in the \texttt{init} method.
+    \item  Once you have determined how to remove the white space and separate sequences from each other, you must now process each individual sequence. You want to convert these sequences of (word, tag) pairs into two separate sequences of numbers: one sequence of numeric words and one sequence of numeric tags. To convert words or tags to numbers, one easy strategy is to treat each unique word or tag as an integer. You must therefore create a mapping of unique words to integers while parsing the text file, for both the words and tags. You should use these mappings to then convert the sequences of words and tags into sequences of ints, and store them in easily indexed data structures, like a numpy array or list. We recommend storing the words and tags in separate data structures, to make the \texttt{getitem} method easier. This should also be done in the \texttt{init} method.     
+    \item One important consideration is that you need to make sure that the training TextDataset object and test TextDataset object use the same mappings. (You don't want your test TextDataset object to map the same word to a different int, since your model will then predict the wrong tag). To do this, we suggest initializing empty dictionaries outside the TextDataset class, and passing these dictionaries into the \texttt{init} function as additional arguments. The training TextDataset object will receive empty dictionaries and will fill them in while using them. Once filled in, the dictionaries will then be passed to the test TextDataset object, which will just directly use the non-empty dictionaries it has received, without editing them.
+
+    (Hint: Because our datasets used an OOV token, as mentioned above, you don't need to worry about new words appearing in the test data that you've never seen in training. But in general it's good to check for this case.)
+    
+    \item Additionally, make sure to create a dictionary of indices to tags. This will be important when evaluating the F1 score of your predictions. The evaluate function we provide needs to be given a list of ground truth tags and predicted tags. It cannot just use the ints outputted by your model, since it doesn't what tag each int corresponds to. Therefore, when creating your dictionary of tags to indices, simultaneously create an inverse mapping of indices to tags. You can do this by once again passing an empty dictionary into the \texttt{init} function and then filling it up as you parse the training data. 
+    \item You must make sure to return the length of the dataset (the total number of sequences) in the \texttt{len} function. Either you can calculate this within the \texttt{len} function itself, or store it as a variable in the \texttt{init} function and return it here.
+    \item Finally, you must implement the \texttt{getitem} method. In this method, you should grab the \texttt{i}th sequences of words (converted to ints) and the \texttt{i}th sequences of tags (also converted to ints) and return them as torch.Tensor objects. Again, the \texttt{torch.tensor()} method will be useful here for converting to your final format.
+\end{enumerate}
+
+Once the TextDataset is complete, you can create separate objects for the training and test data, and feed these TextDatasets into DataLoaders. Again, see the following \href{https://pytorch.org/tutorials/beginner/basics/data_tutorial.html}{link} for an example. To ensure that all data is iterated in the same order and your results match the expected ones, we require using the \texttt{shuffle=False} option for the DataLoaders. Make sure to keep in mind that we are asking you to use a batch size of 1 for this problem, as batching with variable length sequences adds complexity.
+
+
+\subsection{Model Definition}\label{model}
+In this assignment, you will create a sequence tagging model, that uses an RNN as the sequence model, with an embedding layer before the sequence layer. The RNN model you create should be able to support ReLU and Tanh activation functions. The RNN will be built as a composition of linear layers and activations, of which you will write your own functions, and leverage pytorch's autograd capabilities to perform backpropagation. For this assignment, you are not allowed to use \texttt{nn.RNN}, \texttt{nn.Linear},\texttt{ nn.ReLU}, nor \texttt{nn.Tanh}. We have given function stubs for each part, and will describe them in more detail below.
+
+\subsubsection{Activation Functions}\label{activations}
+
+You need to implement two activations: ReLU and Tanh. Each activation has two functions, which include \texttt{TanhFunction}, \texttt{Tanh} and \texttt{ReLUFunction}, \texttt{ReLU}. Using Tanh as an example, the \texttt{TanhFunction} class will extend pytorch's autograd functionality while the \texttt{Tanh} class acts as a wrapper for \texttt{TanhFunction}. The function specifications in the handout should guide you through the steps, but it is very similar to \texttt{LinearFunction} in that you will have to implement \texttt{forward} and \texttt{backward} for the activation function classes. In the activation module's \texttt{Tanh} function, use \texttt{.apply()} on the input for the \texttt{forward} method. NOTE: it is ok to use \texttt{torch.tanh} in the tanhFunction, but do not use \texttt{torch.nn.Tanh}. A backwards implementation is not necessary for this module function (Make sure you understand why). For additional discussion on the topic of extending PyTorch in this way, see \href{https://pytorch.org/docs/stable/notes/extending.html}{here}.
+
+
+\subsubsection{Testing your Functions}\label{testing}
+
+In order to verify the correctness of the backward method of the three functions you implemented, you should use \texttt{torch.autograd.gradcheck}. See \href{https://pytorch.org/docs/stable/generated/torch.autograd.gradcheck.gradcheck.html}{here} for more information. More specifically, you can use this function to test the correctness of LienarFunction, ReLUFunction, and TanhFunction. We strongly recommend testing all three of your functions before moving on to the next steps, because your bugs and errors will propagate and make debugging much harder. For office hours, we ask that you show us that you have tried using gradcheck to ensure these three functions work.
+
+
+\subsubsection{RNN}\label{model}
+Now you will implement an RNN, using the existing linear layer and activation functions that you have created earlier. See below for implementation details.
+
+The \texttt{init} method sets all the parameters for the model. This includes the \texttt{embedding\_dim}, hyperparameters, Linear layers, and activations. 
+
+The \texttt{forward} pass takes in embeddings of size \texttt{embedding\_dim}, and passes it through the RNN in order, returning a list of hidden states. The number of states should be equal to the length of the sequence. The first hidden state should be initialized to be all zeros and be updated with every word in the sequence. Again, make sure to keep in mind that the batch size is 1.
+
+\subsubsection{Tagging Model}\label{model}
+Now we will put together all the parts to create a model. The tagging model will extend pytorch's module class. The init method has 5 parameters.
+
+\begin{enumerate}
+    \item \texttt{vocab\_size}: Integer representing the number of unique words in the dictionary
+    \item \texttt{tagset\_size}: Integer representing the number of unique outputs in the tag space
+    \item \texttt{embedding\_dim}: Integer representing the size of the sentence embeddings (hyperparameter)
+    \item \texttt{hidden\_dim}: Integer representing the size of the hidden state dimensions in the RNN (hyperparameter)
+    \item \texttt{activation}: String representing the activation function to be used in the RNN (hyperparameter)
+\end{enumerate}
+The \texttt{init} method should initialize the embedding layer (Hint: Use \texttt{nn.Embedding}), the RNN class, as well as a final Linear layer for use on the outputs of the RNN. The \texttt{forward} method should return a distribution of the \texttt{tag\_space} for each element in the sentence. \textbf{Please pay close attention to the shapes of the inputs and outputs as you do this.} 
+
+\subsection{Training and Evaluation}\label{train_and_eval}
+
+Now that you have created a working model, it's time to train and evaluate it! For this section, you will write three functions: \texttt{train\_one\_epoch()},  \texttt{predict\_and\_evaluate()}, and \texttt{train()} (and optionally \texttt{calculate\_metrics()}).
+
+\texttt{calculate\_metrics()}: This is an optional function you can choose to fill in that helps modularize the evaluation. Use your map of ints to tags, in addition to the evaluate function, to calculate the F1 score for your predictions. Please take a look at the documentation for the evaluate function in metrics.py to see what parameters it expects and what it will output. You only need to output the F1 score, but if you would like to keep track of precision and recall, you are welcome to. If you are unfamiliar with these terms, these are just different metrics to assess how well your model is doing, specifically when you don't have an equal balance of outputs in your data.
+
+\texttt{train\_one\_epoch()}: Performs the necessary calls to model, optimizer, and loss function to train the model for one epoch, but does not return anything. 
+
+\texttt{predict\_and\_evaluate()}: Returns the loss, accuracy, f1\_score, and predictions for the corresponding epoch. Please either call \texttt{calculate\_metrics()} here or use the evaluate function here in addition to your map of indices to tags to calculate the F1 score.
+
+\texttt{train()}: Returns the train loss/accuracy and f1 score for each epoch. It should also return the final epoch's predictions on the training and test sets.
+
+If you're unsure how to start, we highly recommend taking a look at \href{https://pytorch.org/tutorials/beginner/introyt/trainingyt.html}{this tutorial} from the PyTorch official documentation. We also recommend taking a look at PyTorch's \texttt{reshape()} \href{https://pytorch.org/docs/stable/generated/torch.reshape.html}{method}, \texttt{view()}\href{https://pytorch.org/docs/stable/generated/torch.Tensor.view.html}{method}, \texttt{squeeze()} \href{https://pytorch.org/docs/stable/generated/torch.squeeze.html}{method}, and \texttt{tolist()} \href{https://pytorch.org/docs/stable/generated/torch.Tensor.tolist.html}{method} to help you out when dealing with the tensors your model outputs.
+
+
+\subsection{Command Line Arguments}\label{command}
+The autograder runs and evaluates the output from the files generated, using the following command:
+
+\begin{tabbing}
+\=\texttt{\$ \textbf{python3} rnn.\textbf{py} [args\dots]}\\
+\end{tabbing}
+    
+Where \texttt{[args\dots]} is a placeholder for command-line arguments: \texttt{<train\_input>} \texttt{<test\_input>} \texttt{<train\_out>} \texttt{<test\_out>} \texttt{<metrics\_out>}. 
+
+Additional hyper-parameters for the model utilize "double dashes". You should experiment with these arguments to improve the performance of the model in the empirical section. \texttt{<--activation>} \\ \texttt{<--embedding\_dim>} \texttt{<--hidden\_dim>} \texttt{<--num\_epochs>} 
+
+These arguments are described below:
+\begin{enumerate}
+    \item \texttt{<train\_input>}: string path to the training input \texttt{.txt} file (see Section~\ref{dataset})
+    \item \texttt{<test\_input>}: string path to the testing input \texttt{.txt} file (see Section~\ref{dataset})
+    \item \texttt{<train\_out>} string path to output .txt file to which the prediction on the training data should be written
+    \item \texttt{<test\_out>} string path to output .txt file to which the prediction on the training data should be written 
+    \item \texttt{<metrics\_out>} string path of the output .txt file to which metrics such as train and validation F1 score should be written 
+    \item \texttt{<--activation>} string specifying activation layer to use in the model, either "tanh" or "relu" \textbf{(hyper-parameter)}
+    \item \texttt{<--embedding\_dim>} positive integer specifying the size of the sentence embedding vector \textbf{(hyper-parameter)}
+    \item \texttt{<--hidden\_dim>} positive integer specifying the number of hidden units to use in the model's hidden layer \textbf{(hyper-parameter)}
+\end{enumerate}
+
+Below is an example command to run using Tanh activation.
+
+\begin{lstlisting}
+python rnn.py data_conll03/en.train_10.twocol.oov \
+data_conll03/en.val_10.twocol.oov \
+train_out.txt val_out.txt metrics_out.txt \
+--activation="relu" --embedding_dim=50 --hidden_dim=50 \
+--num_epochs=10 \
+\end{lstlisting}
+\vspace{0.2 in}
+
+
+\subsection{Output: Labels File} \label{output}
+Your program should write two output \texttt{.txt} files containing the tag predictions of your model on training data (\texttt{<train\_out>}) and validation\thinspace data (\texttt{<validation\_out>}). Each should contain the predicted labels for each example printed on a new line. Use \lstinline{\n} to create a new line. 
+
+Your labels should exactly match those of a reference implementation -- this will be checked by the autograder by running your program and evaluating your output file against the reference solution. An example of the labels is given below.
+\begin{lstlisting}
+5
+1
+0
+5
+5
+3
+4
+\end{lstlisting}
+
+\subsection{Output: Metrics File} \label{metrics}
+Generate a file where you report the accuracy and F1 score for train and test validation on the final epoch. Round the values to 6 decimal places. Make sure to follow the newline format shown here. \\ \\
+Below is  example of approximate metrics run on the 10\% data for $10$ epochs. We used the ReLU activation, \texttt{embedding\_dim} and \texttt{hidden\_dim} at $50$.
+\begin{lstlisting}
+accuracy(train): 0.98588
+accuracy(test): 0.883971
+f1(train): 0.909717
+f1(test): 0.524194
+\end{lstlisting}
+
+\subsection{Gradescope Submission}
+
+You should submit your \texttt{rnn.py} and \texttt{metrics.py}. \textbf{Any other files will be deleted.} Please do not use other file names. This will cause problems for the autograder to correctly detect and run your code. Please go through the appendix at the end for information on starter-code.
+
+Some additional tips: 
+Make sure to read the autograder output carefully. The autograder for Gradescope prints out some additional 
+information about the tests that it ran. For this programming assignment we’ve specially designed some buggy implementations that you might implement and will try our best to detect those and give you some more useful feedback in Gradescope’s autograder. Make wise use of autograder’s output for debugging your code.
+
+
+\textit{Note:} For this assignment, you have 10 submissions to Gradescope before the deadline, but only your last submission will be graded.
+\end{document}
